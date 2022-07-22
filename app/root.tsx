@@ -7,6 +7,11 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import tailwindStylesheetUrl from "./styles/tailwind.css";
+
+export function links() {
+  return [{ rel: "stylesheet", href: tailwindStylesheetUrl }];
+}
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
