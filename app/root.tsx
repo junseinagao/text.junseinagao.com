@@ -7,15 +7,22 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-import tailwindStylesheetUrl from "./styles/tailwind.css";
+import tailwindStyleshetUrl from "./styles/tailwind.css";
+import globalStyles from "./styles/global.css";
+
+import Header from "./components/header";
 
 export function links() {
-  return [{ rel: "stylesheet", href: tailwindStylesheetUrl }];
+  return [
+    { rel: "stylesheet", href: "https://use.typekit.net/kev1txv.css" },
+    { rel: "stylesheet", href: globalStyles },
+    { rel: "stylesheet", href: tailwindStyleshetUrl },
+  ];
 }
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
-  title: "Nagao Software Development",
+  title: "text.junseinagao.com",
   viewport: "width=device-width,initial-scale=1",
 });
 
@@ -25,9 +32,13 @@ export default function App() {
       <head>
         <Meta />
         <Links />
+        <script async src="/font.js"></script>
       </head>
-      <body>
-        <Outlet />
+      <body className="bg-brand-base">
+        <Header />
+        <main className="container mx-auto">
+          <Outlet />
+        </main>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
