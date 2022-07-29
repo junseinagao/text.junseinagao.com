@@ -1,10 +1,6 @@
-import { Outlet } from "@remix-run/react";
+import type { LoaderFunction } from "@remix-run/cloudflare";
+import { redirect } from "@remix-run/cloudflare";
 
-export default function Blog() {
-  return (
-    <div className="flex flex-col items-center py-10">
-      <h1 className="text-5xl font-bold text-red-800">Posts</h1>
-      <Outlet />
-    </div>
-  );
-}
+export const loader: LoaderFunction = async () => {
+  return redirect("/");
+};

@@ -5,6 +5,7 @@ export type PostMetaData = {
   description: string;
   date: ReturnType<Date["toISOString"]>;
   eyecatch: string;
+  tags: Array<string>;
 };
 
 export type PostIndexData = {
