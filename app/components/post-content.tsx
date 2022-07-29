@@ -6,15 +6,15 @@ type Props = {
   content: string;
 };
 
-const PostContent = ({ content }: Props) => {
+const MDXRender = ({ content }: Props) => {
   const Component = useMemo(() => getMDXComponent(content), [content]);
   return <Component />;
 };
 
-export default function PostContentView({ content }: Props) {
+export default function PostContent({ content }: Props) {
   return (
     <ClientOnly fallback={<div></div>}>
-      {() => <PostContent content={content} />}
+      {() => <MDXRender content={content} />}
     </ClientOnly>
   );
 }
