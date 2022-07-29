@@ -8,3 +8,4 @@ node_modules
 coverage
 
 /app/styles/tailwind.css
+/public/_markdowns

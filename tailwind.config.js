@@ -11,7 +11,7 @@ const brandColors = {
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./app/**/*.{js,ts,jsx,tsx}"],
+  content: ["./app/**/*.{js,ts,jsx,tsx,md,mdx}", "./public/**/*.{md,mdx}"],
   theme: {
     extend: {
       fontFamily: {

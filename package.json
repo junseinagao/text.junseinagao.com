@@ -2,9 +2,11 @@
   "private": true,
   "sideEffects": false,
   "scripts": {
+    "build:markdown": "node build-content.js",
     "build:css": "npm run generate:css -- --minify",
     "build:remix": "remix build",
     "build": "run-s \"build:*\"",
+    "dev:markdown": "node build-content.js --watch",
     "dev:css": "npm run generate:css -- --watch",
     "dev:remix": "remix watch",
     "dev:wrangler": "cross-env NODE_ENV=development wrangler pages dev ./public",
@@ -28,8 +30,10 @@
     "@remix-run/cloudflare-pages": "^1.6.5",
     "@remix-run/react": "^1.6.5",
     "cross-env": "^7.0.3",
+    "mdx-bundler": "^9.0.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "remix-utils": "^3.3.0"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^3.14.1",
@@ -46,6 +50,8 @@
     "@vitest/ui": "^0.18.1",
     "autoprefixer": "^10.4.7",
     "c8": "^7.12.0",
+    "chokidar": "^3.5.3",
+    "esbuild": "^0.14.51",
     "eslint": "^8.20.0",
     "eslint-config-prettier": "^8.5.0",
     "happy-dom": "^6.0.4",
@@ -53,6 +59,7 @@
     "postcss": "^8.4.14",
     "prettier": "^2.7.1",
     "prettier-plugin-tailwindcss": "^0.1.12",
+    "remark-mdx-images": "^2.0.0",
     "tailwindcss": "^3.1.6",
     "typescript": "^4.7.4",
     "vite": "^3.0.2",
