@@ -3,7 +3,7 @@ import { useLoaderData } from "@remix-run/react";
 import { getPostIndexDataWithContent } from "~/model/post.server";
 import type { LoaderFunction } from "@remix-run/cloudflare";
 import type { PostIndexDataWithContent } from "~/model/post.server";
-import PostContentView from "~/components/PostContent";
+import PostContentView from "~/components/postContent";
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const data = await getPostIndexDataWithContent({
