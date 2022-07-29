@@ -12,6 +12,7 @@ export type PostIndexData = {
   slug: string;
   url: string;
   code: string;
+  "raw-content": string;
 };
 
 export type PostIndexDataWithContent = PostIndexData & {

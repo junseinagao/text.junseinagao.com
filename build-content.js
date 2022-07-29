@@ -3,6 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const chokidar = require("chokidar");
 const { bundleMDX } = require("mdx-bundler");
+const { marked } = require("marked");
 
 const TARGET_DIR_PATH = "content";
 const BUILD_DIR_NAME = "_markdowns";
@@ -34,6 +35,7 @@ function watchMdFiles() {
 async function makeMdIndex() {
   const exists = fs.existsSync(path.resolve(__dirname, OUTPUT_DIR_PATH));
   if (!exists) fs.mkdirSync(path.resolve(__dirname, OUTPUT_DIR_PATH));
+  // @ts-ignore
   const remarkMdxImages = await import(
     "./node_modules/remark-mdx-images/index.js"
   ).then((m) => m.default);
@@ -43,6 +45,9 @@ async function makeMdIndex() {
     .filter(
       (filePath) => filePath.endsWith(".mdx") || filePath.endsWith(".md")
     );
+  /**
+   * @type {{ meta: { [key: string]: any; }; slug: string; url: string; code: string; }[]}
+   */
   let results = [];
   filePathes.forEach((filePath) => {
     if (filePath.endsWith(TARGET_INDEX_FILE_NAME)) return;
@@ -72,13 +77,13 @@ async function makeMdIndex() {
             options.loader = {
               ...options.loader,
               ".png": "file",
-              ".jpg": "dataurl",
-              ".webp": "dataurl",
+              ".jpg": "file",
+              ".webp": "file",
             };
 
             return options;
           },
-        }).then(({ code, frontmatter }) => {
+        }).then(({ code, frontmatter, matter }) => {
           const bundledPath = "__" + filePath.split(".")[0] + ".js";
           fs.writeFileSync(
             path.resolve(__dirname, OUTPUT_DIR_PATH, bundledPath),
@@ -86,13 +91,12 @@ async function makeMdIndex() {
           );
           const result = {
             meta: frontmatter,
-            // @ts-ignore
             slug: filePath.split(".")[0].replaceAll(/\s/g, "-"),
-            // @ts-ignore
             url: "posts/" + filePath.split(".")[0].replaceAll(/\s/g, "-"),
             code: path
               .join(OUTPUT_DIR_PATH, bundledPath)
               .replace("public/", ""),
+            "raw-content": marked(matter.content),
           };
           results.push(result);
           if (results.length === filePathes.length) {

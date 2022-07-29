@@ -21,7 +21,7 @@ export default function BlogIndex() {
     <>
       <h1>{post.meta?.title}</h1>
       <p>{post.meta?.description}</p>
-      <PostContent content={post.content} />
+      <PostContent content={post.content} rawContent={post["raw-content"]} />
     </>
   );
 }

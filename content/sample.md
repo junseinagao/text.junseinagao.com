@@ -11,4 +11,6 @@ Sample content Body.
 
 ![sample-photo](./images/sample-photo.png)
 
-## Sample second heding
+## Sample second heading
+
+### Sample third heading
