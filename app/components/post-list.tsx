@@ -17,7 +17,7 @@ export default function PostList({ posts }: Props) {
           <li key={index} className="block">
             <div className="flex h-full w-full max-w-xl items-start gap-y-8 gap-x-4">
               <Link to={`/posts/${slug}`} className="flex flex-col">
-                <time className="inline-flex h-8 w-32 items-center justify-center rounded-md border border-solid border-brand-sub text-base lg:text-xl">
+                <time className="inline-flex h-8 w-32 items-center justify-center rounded-md border border-solid border-brand-sub text-base text-current lg:text-xl">
                   {formatDate(date)}
                 </time>
                 <img
@@ -38,8 +38,8 @@ export default function PostList({ posts }: Props) {
                   to={`/posts/${slug}`}
                   className="link-hover flex flex-col gap-y-2"
                 >
-                  <h1 className="text-2xl lg:text-4xl">{title}</h1>
-                  <p className="text-base lg:text-xl">
+                  <h1 className="text-2xl text-current lg:text-4xl">{title}</h1>
+                  <p className="text-base text-current lg:text-xl">
                     {description.slice(0, 50)}
                     {description.length >= 50 && "..."}
                   </p>

@@ -18,6 +18,8 @@ export type PostIndexData = {
 
 export type PostIndexDataWithContent = PostIndexData & {
   content: string;
+  previous: PostIndexData | null;
+  next: PostIndexData | null;
 };
 
 export type PostIndex = Array<PostIndexData>;
@@ -66,8 +68,11 @@ export const getPostIndexDataWithContent = async ({
   if (!postIndex) return null;
   const post = postIndex.find(({ slug }) => slug === pageSlug);
   if (!post) return null;
+  const index = postIndex.findIndex(({ slug }) => slug === pageSlug);
+  const previous = index > 0 ? postIndex[index - 1] : null;
+  const next = index < postIndex.length - 1 ? postIndex[index + 1] : null;
   const res = await fetchSameOriginResource(request.url, post.code);
   if (!res.ok) return null;
   const content = await res.text();
-  return { ...post, content } as PostIndexDataWithContent;
+  return { ...post, content, previous, next } as PostIndexDataWithContent;
 };

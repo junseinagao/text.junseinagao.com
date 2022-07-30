@@ -6,7 +6,7 @@ export default function Header() {
       <div className="flex justify-center bg-brand-base-accent py-4 font-din-2014 font-bold">
         <Link
           to={"/"}
-          className="text-4xl text-brand-text underline  md:text-5xl xl:text-7xl"
+          className="text-4xl text-brand-text underline  lg:text-7xl"
         >
           text.junseinagao.com
         </Link>
@@ -14,12 +14,12 @@ export default function Header() {
       <nav>
         <ul className=" flex list-none justify-center gap-x-10 border-t border-b border-solid border-brand-sub py-4 text-2xl">
           <li>
-            <Link to="/" className="link-hover">
+            <Link to="/" className="link-hover text-brand-text">
               All Articles
             </Link>
           </li>
           <li>
-            <Link to="/me" className="link-hover">
+            <Link to="/me" className="link-hover text-brand-text">
               About me
             </Link>
           </li>

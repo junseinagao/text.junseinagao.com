@@ -1,10 +1,10 @@
 import { json } from "@remix-run/cloudflare";
-import { useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 import { getPostIndexDataWithContent } from "~/model/post.server";
 import type { LoaderFunction, LinksFunction } from "@remix-run/cloudflare";
 import type { PostIndexDataWithContent } from "~/model/post.server";
 import PostContent from "~/components/post-content";
-import { useMemo } from "react";
+import { formatDate } from "~/lib/date-utils";
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const data = await getPostIndexDataWithContent({
@@ -24,31 +24,67 @@ export const links: LinksFunction = () => [
 
 export default function BlogIndex() {
   const post = useLoaderData<PostIndexDataWithContent>();
-  const entries = useMemo(
-    () => Object.entries(post.meta).sort(([a], [b]) => (a > b ? 1 : -1)),
-    [post.meta]
-  );
+  const {
+    meta: { title, tags, date, eyecatch },
+    previous,
+    next,
+  } = post;
+  console.log({ previous, next });
 
   return (
     <>
-      <h1>{post.meta?.title}</h1>
-      <ul>
-        {entries.map(([meta, value], i) => (
-          <li key={`meta-${meta}-${i}`}>
-            {typeof value === "string" && value}
-            {Array.isArray(value) &&
-              value.map((v, j) => (
-                <span
-                  key={`meta-${meta}-list-${j}`}
-                  className="not-last-of-type:mr-1"
-                >
-                  {v}
-                </span>
-              ))}
-          </li>
-        ))}
+      <h1 className="text-3xl md:text-5xl">{title}</h1>
+      <ul className="flex w-full flex-col justify-center gap-4 py-4 xl:max-w-6xl ">
+        <li className="inline-flex h-8 items-center justify-center px-4">
+          <time className="text-base text-current lg:text-xl">
+            {formatDate(date)}
+          </time>
+        </li>
+        <li className="self-start px-4">
+          <ul className="flex list-none justify-center gap-2">
+            {tags.map((tag, i) => (
+              <li
+                key={`tag-${i}`}
+                className="p-2 text-base text-current lg:text-xl"
+              >
+                {tag}
+              </li>
+            ))}
+          </ul>
+        </li>
+        <li className="h-80 w-full">
+          <img
+            className="h-full w-full rounded-md object-cover"
+            src={eyecatch}
+            alt={title}
+          />
+        </li>
       </ul>
       <PostContent content={post.content} rawContent={post["raw-content"]} />
+      <nav className="grid grid-cols-3 py-8 text-2xl font-bold">
+        {previous !== null ? (
+          <Link
+            to={`/posts/${previous.slug}`}
+            className="text-brand-text"
+          >{`${previous.meta.title} 👈`}</Link>
+        ) : (
+          <span>🚧</span>
+        )}
+        <span
+          className="cursor-pointer text-center text-brand-text"
+          onClick={() => window.scrollTo({ top: 0 })}
+        >
+          🌿
+        </span>
+        {next !== null ? (
+          <Link
+            to={`/posts/${next.slug}`}
+            className="text-brand-text"
+          >{`👉 ${next.meta.title}`}</Link>
+        ) : (
+          <span>🚧</span>
+        )}
+      </nav>
     </>
   );
 }

@@ -16,6 +16,7 @@ pre,code {
 
 :root {
   --color-border-default: #718791 !important;
+  --color-border-muted: #718791 !important;
 }
 
 
@@ -27,6 +28,14 @@ pre,code {
   margin-right: auto;
   width: 100%;
   @apply max-h-80;
+}
+
+.markdown-body a {
+  @apply text-brand-red-dark;
+}
+.markdown-body a:hover {
+  @apply text-brand-red;
+  text-decoration-style: dashed;
 }
 
 
