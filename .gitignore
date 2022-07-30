@@ -7,5 +7,5 @@ node_modules
 .env
 coverage
 
-/app/styles/tailwind.css
+/app/styles/_*.css
 /public/_markdowns

@@ -8,17 +8,44 @@ body {
     "Open Sans", "Helvetica Neue", sans-serif;
 }
 
-code {
+pre,code {
   font-family: source-han-sans-japanese, system-ui, -apple-system,
     BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
     "Open Sans", "Helvetica Neue", sans-serif;
 }
 
-@layer base {
-  * {
-    color: @apply text-brand-text;
-  }
+:root {
+  --color-border-default: #718791 !important;
 }
+
+
+.markdown-body p img {
+  aspect-ratio: 16 / 9;
+  background-color: #718791;
+  object-fit: contain;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  @apply max-h-80;
+}
+
+
+* {
+  @apply text-brand-text;
+}
+
+a {
+  @apply transition-colors duration-150;
+}
+
+a:hover,
+a:focus,
+a:active {
+  @apply text-brand-red-dark underline;
+  text-decoration-style: dashed;
+}
+
+
 
 @layer components {
   .link-hover {

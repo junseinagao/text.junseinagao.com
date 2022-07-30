@@ -9,13 +9,22 @@ type Props = {
 
 const MDXRender = ({ content }: Pick<Props, "content">) => {
   const Component = useMemo(() => getMDXComponent(content), [content]);
-  return <Component />;
+  return (
+    <div className="markdown-body container mx-auto border-x-2 border-dashed border-brand-sub p-4">
+      <Component />
+    </div>
+  );
 };
 
 export default function PostContent({ content, rawContent }: Props) {
   return (
     <ClientOnly
-      fallback={<div dangerouslySetInnerHTML={{ __html: rawContent }}></div>}
+      fallback={
+        <div
+          className="markdown-body container mx-auto border-x-2 border-dashed border-brand-sub p-4"
+          dangerouslySetInnerHTML={{ __html: rawContent }}
+        ></div>
+      }
     >
       {() => <MDXRender content={content} />}
     </ClientOnly>
