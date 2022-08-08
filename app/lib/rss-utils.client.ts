@@ -2,18 +2,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import type { CustomFieldItem, ParserOptions } from "rss-parser";
 import Parser from "rss-parser";
 
-export type ZennCustomFeed = {
-  language: string;
-  lastBuildDate: string;
-};
-
-export type ZennCustomItem = {
-  content: string;
-  contentSnippet: string;
-  "dc:creator": string;
-  enclosure: { url: string; length: string; type: string };
-};
-
 type useRssParseProps<Feed, Item> = {
   customFields?: {
     feed: (keyof ParserOptions<Feed, Item>)[] | undefined;

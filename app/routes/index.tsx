@@ -1,7 +1,7 @@
 import type { LoaderFunction } from "@remix-run/cloudflare";
 import { json } from "@remix-run/cloudflare";
 import { Outlet, useLoaderData } from "@remix-run/react";
-import PostList from "~/components/post-list.client";
+import PostList from "~/components/posts/post-list.client";
 import type { PostIndexLoaderData } from "~/model/post.server";
 import {
   getPostIndex,
@@ -25,12 +25,16 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function Index() {
-  const data = useLoaderData<PostIndexLoaderData>();
+  const { posts, zenn, qiita, note } = useLoaderData<PostIndexLoaderData>();
 
   return (
     <section>
       <ClientOnly>
-        {() => data?.posts && <PostList posts={data.posts} zenn={data.zenn} />}
+        {() =>
+          posts && (
+            <PostList posts={posts} zenn={zenn} qiita={qiita} note={note} />
+          )
+        }
       </ClientOnly>
       <Outlet />
     </section>
