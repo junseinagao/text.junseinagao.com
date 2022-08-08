@@ -24,7 +24,7 @@ export default function PostListItem({
           <img
             src={eyecatch}
             alt={title}
-            className="h-auto w-32 rounded-3xl object-cover p-4"
+            className="h-32 w-32 rounded-3xl object-cover p-4"
           />
         </Link>
         <div className="group flex flex-1 flex-col items-stretch gap-4">
@@ -41,8 +41,8 @@ export default function PostListItem({
           >
             <h1 className="text-2xl text-current lg:text-4xl">{title}</h1>
             <p className="text-base text-current lg:text-xl">
-              {description.slice(0, 50)}
-              {description.length >= 50 && "..."}
+              {description?.slice(0, 50)}
+              {description?.length >= 50 && "..."}
             </p>
           </Link>
         </div>
