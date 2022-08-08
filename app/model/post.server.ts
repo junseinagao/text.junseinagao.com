@@ -23,6 +23,12 @@ export type PostIndexDataWithContent = PostIndexData & {
 };
 
 export type PostIndex = Array<PostIndexData>;
+export type PostIndexLoaderData = {
+  posts: PostIndex | null;
+  zenn: string | null;
+  note: string | null;
+  qiita: string | null;
+};
 
 const getUrlOrigin = (url: string) => new URL(url).origin;
 const fetchSameOriginResource = (
@@ -75,4 +81,26 @@ export const getPostIndexDataWithContent = async ({
   if (!res.ok) return null;
   const content = await res.text();
   return { ...post, content, previous, next } as PostIndexDataWithContent;
+};
+
+const getRSSAsText = async (url: string) => {
+  try {
+    const res = await fetch(url);
+    const body = await res.text();
+    return body;
+  } catch (error) {
+    return null;
+  }
+};
+
+export const getZennRSS = async () => {
+  return getRSSAsText("https://zenn.dev/junseinagao/feed");
+};
+
+export const getNoteRSS = async () => {
+  return getRSSAsText("https://note.com/junsei_nagao/rss");
+};
+
+export const getQiitaRSS = async () => {
+  return getRSSAsText("https://qiita.com/junseinagao/feed");
 };
