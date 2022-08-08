@@ -23,16 +23,22 @@ tags: ['ポエム']
 
 #### Remix
 
+![remix logo](https://cdn.svgporn.com/logos/remix.svg)
+
 少し触ったら一瞬で好きになりました。Next.jsを打倒して欲しい。
 
 #### Tailwind CSS
+
+![tailwindcss logo](https://cdn.svgporn.com/logos/tailwindcss.svg)
 
 昔から愛用しています。デザイントークンをすぐに使えるのが良い。
 
 #### Cloudflare Pages
 
+![cloudflare](https://cdn.svgporn.com/logos/cloudflare.svg)
+
 インフラには、Cloudfalre Pages を採用しています。とりあえず、Cloudflare Worker を活用した構成にしてみたくて使っています。
-結果としてエッジサイドでは Node.js を使うことがほとんどできないので色々苦しいです。
+結果としてエッジサイドでは Node.js を使うことがほとんどできないので色々苦しいです。その代わり早さを手に入れてるはず。
 
 ### Features
 
