@@ -1,19 +1,24 @@
 import { json } from "@remix-run/cloudflare";
 import { Link, useLoaderData } from "@remix-run/react";
 import { getPostIndexDataWithContent } from "~/model/post.server";
-import type { LoaderFunction, LinksFunction } from "@remix-run/cloudflare";
+import type {
+  LoaderFunction,
+  LinksFunction,
+  MetaFunction,
+} from "@remix-run/cloudflare";
 import type { PostIndexDataWithContent } from "~/model/post.server";
 import PostContent from "~/components/post-content";
 import { formatDate } from "~/lib/date-utils";
 import highlightStylesheet from "highlight.js/styles/github.css";
+import { getCustomMeta } from "~/lib/ogp-utils";
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const data = await getPostIndexDataWithContent({
     request,
     slug: params.slug!!,
   });
-  if (!data) return null;
-  return json(data);
+  if (!data) return json({ url: request.url });
+  return json({ ...data, url: request.url });
 };
 
 export const links: LinksFunction = () => [
@@ -26,6 +31,23 @@ export const links: LinksFunction = () => [
     href: highlightStylesheet,
   },
 ];
+
+export const meta: MetaFunction = ({
+  data: {
+    meta: { title, description, eyecatch, tags },
+    url,
+  },
+}) => {
+  return {
+    ...getCustomMeta({
+      title,
+      description,
+      image: eyecatch,
+      keywords: tags.join(" "),
+      url,
+    }),
+  };
+};
 
 export default function BlogIndex() {
   const post = useLoaderData<PostIndexDataWithContent>();

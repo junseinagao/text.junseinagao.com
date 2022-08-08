@@ -19,6 +19,9 @@ pre,code {
   --color-border-muted: #718791 !important;
 }
 
+.markdown-body * {
+  font-size: 20px;
+}
 
 .markdown-body p img {
   aspect-ratio: 16 / 9;

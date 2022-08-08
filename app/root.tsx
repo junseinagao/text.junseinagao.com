@@ -9,8 +9,9 @@ import {
 } from "@remix-run/react";
 import tailwindStyleshetUrl from "./styles/_tailwind.css";
 
-import Header from "./components/header";
-import Footer from "./components/footer";
+import Header from "./components//ui-parts/header";
+import Footer from "./components/ui-parts/footer";
+import { getCustomMeta } from "./lib/ogp-utils";
 
 export function links() {
   return [
@@ -21,13 +22,13 @@ export function links() {
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
-  title: "text.junseinagao.com",
   viewport: "width=device-width,initial-scale=1",
+  ...getCustomMeta({ url: "https://text.junseinagao.com" }),
 });
 
 export default function App() {
   return (
-    <html lang="ja">
+    <html lang="ja" prefix="og: https://ogp.me/ns#">
       <head>
         <Meta />
         <Links />

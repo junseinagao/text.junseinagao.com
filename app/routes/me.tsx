@@ -1,12 +1,28 @@
-import Profile from "~/components/profile.mdx";
-import type { LinksFunction } from "@remix-run/cloudflare";
+import Profile from "~/assets/profile.mdx";
+import type {
+  LinksFunction,
+  LoaderFunction,
+  MetaFunction,
+} from "@remix-run/cloudflare";
 import stylesheet from "~/styles/me.css";
 import highlightStylesheet from "highlight.js/styles/github.css";
+import { getCustomMeta } from "~/lib/ogp-utils";
+import { json } from "remix-utils";
+
+export const loader: LoaderFunction = async ({ request: { url } }) => {
+  return json({ url });
+};
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
   { rel: "stylesheet", href: highlightStylesheet },
 ];
+
+export const meta: MetaFunction = ({ data: { url } }) => {
+  return {
+    ...getCustomMeta({ title: "About me", description: "私について", url }),
+  };
+};
 
 export default function Me() {
   return (

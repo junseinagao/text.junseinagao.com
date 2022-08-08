@@ -1,4 +1,4 @@
-import type { LoaderFunction } from "@remix-run/cloudflare";
+import type { LoaderFunction, MetaFunction } from "@remix-run/cloudflare";
 import { json } from "@remix-run/cloudflare";
 import { Outlet, useLoaderData } from "@remix-run/react";
 import PostList from "~/components/posts/post-list.client";
@@ -10,6 +10,7 @@ import {
   getZennRSS,
 } from "~/model/post.server";
 import { ClientOnly } from "remix-utils";
+import { getCustomMeta } from "~/lib/ogp-utils";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const [posts, zenn, note, qiita] = await Promise.all([
@@ -21,7 +22,13 @@ export const loader: LoaderFunction = async ({ request }) => {
   if (!posts) return json(null);
   if (!(zenn && note && qiita)) return json({ posts, zenn, note, qiita });
 
-  return json({ posts, zenn, note, qiita });
+  return json({ posts, zenn, note, qiita, url: request.url });
+};
+
+export const meta: MetaFunction = ({ data: { url } }) => {
+  return {
+    ...getCustomMeta({ url }),
+  };
 };
 
 export default function Index() {
