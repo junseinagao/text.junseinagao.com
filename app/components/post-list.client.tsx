@@ -1,4 +1,3 @@
-import { Link } from "@remix-run/react";
 import type { PostIndex, PostIndexData } from "~/model/post.server";
 import type { ZennCustomFeed, ZennCustomItem } from "~/lib/rss-utils.client";
 import { useRssParse } from "~/lib/rss-utils.client";
@@ -18,55 +17,60 @@ type PostListProps = {
 
 type AllPostOptions = {
   dayjsDate: dayjs.Dayjs;
-  postType: "post" | "zenn";
+  postType: "markdown-post" | "zenn";
 };
 
-type MarkdownPost = {
-  postType: "post";
-};
+type MarkdownPost = PostIndexData &
+  AllPostOptions & {
+    postType: "markdown-post";
+  };
 
-type ZennPost = {
-  postType: "zenn";
-};
+type ZennPost = Parser.Output<ZennCustomFeed>["items"][number] &
+  AllPostOptions & {
+    postType: "zenn";
+  };
 
-type AllPost =
-  | (PostIndexData & AllPostOptions & MarkdownPost)
-  | (Parser.Output<ZennCustomFeed>["items"][number] &
-      AllPostOptions &
-      ZennPost);
+type AllPost = MarkdownPost | ZennPost;
 
 export default function PostList({ posts, qiita, zenn, note }: PostListProps) {
   const { data: zennRSS } = useRssParse<ZennCustomFeed, ZennCustomItem>({
     text: zenn,
   });
   const allPosts = useMemo<Array<AllPost>>(() => {
-    if (!zennRSS) return [];
-    const arrangedPosts = posts.map((post) => ({
-      ...post,
-      dayjsDate: parseToDayjs(post.meta.date),
-      postType: "post",
-    }));
+    const arrangedPosts = posts.map(
+      (post) =>
+        ({
+          ...post,
+          dayjsDate: parseToDayjs(post.meta.date),
+          postType: "markdown-post",
+        } as MarkdownPost)
+    );
 
-    const arrangedZennItems = zennRSS.items.map((item) => ({
-      ...item,
-      dayjsDate: parseToDayjs(item.isoDate!),
-      postType: "zenn",
-    }));
+    const arrangedZennItems = zennRSS
+      ? zennRSS.items.map(
+          (item) =>
+            ({
+              ...item,
+              dayjsDate: parseToDayjs(item.isoDate!),
+              postType: "zenn",
+            } as ZennPost)
+        )
+      : [];
     return [...arrangedPosts, ...arrangedZennItems].sort((a, b) =>
       sortByDayjs(a.dayjsDate, b.dayjsDate) ? 1 : -1
-    ) as unknown as AllPost;
+    );
   }, [posts, zennRSS]);
 
   return (
     <ul className="flex flex-col gap-8 px-4">
       {allPosts?.map((post, index) => {
-        if (post.postType === "post")
+        if (post.postType === "markdown-post")
           return <PostListItem post={post} key={index}></PostListItem>;
         if (post.postType === "zenn" && zennRSS)
           return (
             <ZennListItem item={post} key={index} feed={zennRSS}></ZennListItem>
           );
-        return <></>;
+        return null;
       })}
     </ul>
   );
