@@ -39,7 +39,7 @@ export default function BlogIndex() {
   return (
     <>
       <h1 className="text-3xl md:text-5xl">{title}</h1>
-      <ul className="flex w-full flex-col justify-center gap-4 py-4 xl:max-w-6xl ">
+      <ul className="flex w-full flex-col justify-center gap-4 py-4 xl:max-w-3xl 2xl:max-w-3xl">
         <li className="inline-flex h-8 items-center justify-center px-4">
           <time className="text-base text-current lg:text-xl">
             {formatDate(date)}
@@ -50,7 +50,7 @@ export default function BlogIndex() {
             {tags.map((tag, i) => (
               <li
                 key={`tag-${i}`}
-                className="p-2 text-base text-current lg:text-xl"
+                className="text-base text-current lg:text-xl"
               >
                 {tag}
               </li>

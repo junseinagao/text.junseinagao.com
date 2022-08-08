@@ -10,7 +10,7 @@ export const links: LinksFunction = () => [
 
 export default function Me() {
   return (
-    <section className="container mx-auto border-2 border-dashed border-brand-sub p-4 xl:max-w-xl 2xl:max-w-xl">
+    <section className="container mx-auto border-2 border-dashed border-brand-sub p-4 xl:max-w-3xl 2xl:max-w-3xl">
       <div className="markdown-body grid grid-cols-1 gap-y-6 text-lg">
         <Profile></Profile>
       </div>
