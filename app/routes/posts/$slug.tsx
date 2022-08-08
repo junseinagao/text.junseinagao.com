@@ -5,6 +5,7 @@ import type { LoaderFunction, LinksFunction } from "@remix-run/cloudflare";
 import type { PostIndexDataWithContent } from "~/model/post.server";
 import PostContent from "~/components/post-content";
 import { formatDate } from "~/lib/date-utils";
+import highlightStylesheet from "highlight.js/styles/github.css";
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const data = await getPostIndexDataWithContent({
@@ -19,6 +20,10 @@ export const links: LinksFunction = () => [
   {
     rel: "stylesheet",
     href: "https://unpkg.com/@primer/css@^20.2.4/dist/primer.css",
+  },
+  {
+    rel: "stylesheet",
+    href: highlightStylesheet,
   },
 ];
 

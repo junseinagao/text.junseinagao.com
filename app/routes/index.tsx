@@ -15,9 +15,9 @@ export default function Index() {
   const posts = useLoaderData<PostIndex | null>();
 
   return (
-    <div>
+    <section>
       {posts && <PostList posts={posts} />}
       <Outlet />
-    </div>
+    </section>
   );
 }
