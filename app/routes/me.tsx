@@ -20,7 +20,12 @@ export const links: LinksFunction = () => [
 
 export const meta: MetaFunction = ({ data: { url } }) => {
   return {
-    ...getCustomMeta({ title: "About me", description: "私について", url }),
+    ...getCustomMeta({
+      title: "About me",
+      description: "私について",
+      image: `${new URL(url).origin}/ogp.png`,
+      url,
+    }),
   };
 };
 

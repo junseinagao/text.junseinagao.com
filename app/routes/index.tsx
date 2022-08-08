@@ -27,7 +27,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export const meta: MetaFunction = ({ data: { url } }) => {
   return {
-    ...getCustomMeta({ url }),
+    ...getCustomMeta({ url, image: `${new URL(url).origin}/ogp.png` }),
   };
 };
 
