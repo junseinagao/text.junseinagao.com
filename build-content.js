@@ -36,9 +36,15 @@ async function makeMdIndex() {
   const exists = fs.existsSync(path.resolve(__dirname, OUTPUT_DIR_PATH));
   if (!exists) fs.mkdirSync(path.resolve(__dirname, OUTPUT_DIR_PATH));
   // @ts-ignore
-  const remarkMdxImages = await import(
-    "./node_modules/remark-mdx-images/index.js"
-  ).then((m) => m.default);
+  const remarkMdxImages = await import("remark-mdx-images").then(
+    (m) => m.default
+  );
+  // @ts-ignore
+  const remarkGMF = await import("remark-gfm").then((m) => m.default);
+  // @ts-ignore
+  const rehypeHighlight = await import("rehype-highlight").then(
+    (m) => m.default
+  );
 
   const filePathes = fs
     .readdirSync(path.resolve(__dirname, TARGET_DIR_PATH))
@@ -69,8 +75,9 @@ async function makeMdIndex() {
             options.remarkPlugins = [
               ...(options.remarkPlugins ?? []),
               remarkMdxImages,
+              remarkGMF,
             ];
-
+            options.rehypePlugins = [rehypeHighlight];
             return options;
           },
           esbuildOptions: (options) => {
