@@ -31,10 +31,6 @@ export default function App() {
       <head>
         <Meta />
         <Links />
-        <script
-          async
-          src="https://unpkg.com/budoux/bundle/budoux-ja.min.js"
-        ></script>
         <script async src="/font.js"></script>
       </head>
       <body className="bg-brand-base">
