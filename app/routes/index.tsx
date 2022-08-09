@@ -36,7 +36,7 @@ export default function Index() {
 
   return (
     <section>
-      <ClientOnly>
+      <ClientOnly fallback={<div className="h-[800px] w-full"></div>}>
         {() =>
           posts && (
             <PostList posts={posts} zenn={zenn} qiita={qiita} note={note} />
