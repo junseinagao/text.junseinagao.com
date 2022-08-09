@@ -31,6 +31,7 @@ export const getCustomMeta = ({
     title: title ? `${title} | ${initialOGP.title}` : initialOGP.title,
     keywords: keywords ? keywords : initialOGP.keywords,
     image: image ? image : initialOGP.image,
+    description: description ? description : initialOGP.description,
     "og:url": url,
     "og:title": title ? `${title} | ${initialOGP.title}` : initialOGP.title,
     "og:description": description ? description : initialOGP.description,
