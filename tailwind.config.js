@@ -21,9 +21,11 @@ module.exports = {
     extend: {
       fontFamily: {
         "rampart-one": ["Rampart One", "sans-serif"],
-        "zen-old-mincho": ["zen-old-mincho", "sans-serif"],
         "din-2014": ["din-2014", "sans-serif"],
-        "source-han-sans-jp": ["source-han-sans-japanese", "sans-serif"],
+        "toppan-bunkyu-gothic-pr6n": [
+          "toppan-bunkyu-gothic-pr6n",
+          "sans-serif",
+        ],
       },
       colors: {
         brand: {
