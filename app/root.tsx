@@ -16,14 +16,14 @@ import Header from "./components//ui-parts/header";
 import Footer from "./components/ui-parts/footer";
 import { getCustomMeta } from "./lib/ogp-utils";
 import { useEffect } from "react";
-import * as gtag from "~/lib/gtag-utils.client";
+import { gtm } from "~/lib/gtag-utils.client";
 
 type LoaderData = {
-  gaTrackingId: string | undefined;
+  containerId: string | undefined;
 };
 
 export const loader: LoaderFunction = async ({ context }) => {
-  return json<LoaderData>({ gaTrackingId: context.GA_TRACKING_ID });
+  return json<LoaderData>({ containerId: context.GTM_CONTAINER_ID });
 };
 
 export function links() {
@@ -41,38 +41,16 @@ export const meta: MetaFunction = () => ({
 
 export default function App() {
   const location = useLocation();
-  const { gaTrackingId } = useLoaderData<LoaderData>();
+  const { containerId } = useLoaderData<LoaderData>();
 
   useEffect(() => {
-    if (gaTrackingId?.length) {
-      gtag.pageview(location.pathname, gaTrackingId);
+    if (containerId?.length) {
+      gtm.initialize({ containerId });
     }
-  }, [location, gaTrackingId]);
+  }, [location, containerId]);
   return (
     <html lang="ja" prefix="og: https://ogp.me/ns#">
       <head>
-        {!gaTrackingId ? null : (
-          <>
-            <script
-              async
-              src={`https://www.googletagmanager.com/gtag/js?id=${gaTrackingId}`}
-            />
-            <script
-              async
-              id="gtag-init"
-              dangerouslySetInnerHTML={{
-                __html: `
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${gaTrackingId}', {
-                  page_path: window.location.pathname,
-                });
-              `,
-              }}
-            />
-          </>
-        )}
         <Meta />
         <Links />
         <script async src="/font.js"></script>
