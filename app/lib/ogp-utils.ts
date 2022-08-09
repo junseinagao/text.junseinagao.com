@@ -28,17 +28,19 @@ export const getCustomMeta = ({
   url: string;
 }): MetaReturn => {
   return {
-    title: title ? `${title} | ${initialOGP}` : initialOGP.title,
+    title: title ? `${title} | ${initialOGP.title}` : initialOGP.title,
     keywords: keywords ? keywords : initialOGP.keywords,
     image: image ? image : initialOGP.image,
     "og:url": url,
-    "og:title": title ? `${title} | ${initialOGP}` : initialOGP.title,
+    "og:title": title ? `${title} | ${initialOGP.title}` : initialOGP.title,
     "og:description": description ? description : initialOGP.description,
     "og:image": image ? image : initialOGP.image,
     "twitter:card": image ? "summary_large_image" : "summary",
     "twitter:creator": "@junpai_code",
     "twitter:site": "@junpai_code",
-    "twitter:title": title ? `${title} | ${initialOGP}` : initialOGP.title,
+    "twitter:title": title
+      ? `${title} | ${initialOGP.title}`
+      : initialOGP.title,
     "twitter:description": description ? description : initialOGP.description,
     "twitter:image": image ? image : initialOGP.image,
     "twitter:alt": title ? `${title} | ${initialOGP}` : initialOGP.title,

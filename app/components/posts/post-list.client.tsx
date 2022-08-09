@@ -61,7 +61,7 @@ export default function PostList({ posts, qiita, zenn, note }: PostListProps) {
   const { data: qiitaRSS } = useRssParse<QiitaCustomFeed, QiitaCustomItem>({
     text: qiita,
   });
-  console.log({ zennRSS, noteRSS, qiitaRSS });
+
   const allPosts = useMemo<Array<AllPost>>(() => {
     const postItems = posts.map(
       (post) =>

@@ -56,7 +56,6 @@ export default function BlogIndex() {
     previous,
     next,
   } = post;
-  console.log({ previous, next });
 
   return (
     <>
