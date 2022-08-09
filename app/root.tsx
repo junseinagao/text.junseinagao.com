@@ -56,6 +56,28 @@ export default function App() {
         <script async src="/font.js"></script>
       </head>
       <body className="bg-brand-base">
+        {!gaTrackingId ? null : (
+          <>
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaTrackingId}`}
+            />
+            <script
+              async
+              id="gtag-init"
+              dangerouslySetInnerHTML={{
+                __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${gaTrackingId}', {
+                  page_path: window.location.pathname,
+                });
+              `,
+              }}
+            />
+          </>
+        )}
         <Header />
         <main className="container mx-auto flex flex-col items-center py-10 px-2 md:px-4">
           <Outlet />
