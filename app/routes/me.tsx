@@ -19,29 +19,17 @@ export const links: LinksFunction = () => [
 ];
 
 export const meta: MetaFunction = ({ data: { url } }) => {
-  try {
-
-    const urlOrigin = new URL(url)?.origin;
-    return {
-      ...getCustomMeta({
-        title: "About me",
-        description: "私について",
-        image: urlOrigin
+  const urlOrigin = new URL(url)?.origin;
+  return {
+    ...getCustomMeta({
+      title: "About me",
+      description: "私について",
+      image: urlOrigin
         ? `${urlOrigin}/ogp.png`
         : "https://text.junseinagao/ogp.png",
-        url,
-      }),
-    };
-  } catch (_e) {
-    return {
-      ...getCustomMeta({
-        title: "About me",
-        description: "私について",
-        image:"https://text.junseinagao/ogp.png",
-        url,
-      }),
-
-  }
+      url,
+    }),
+  };
 };
 
 export default function Me() {
