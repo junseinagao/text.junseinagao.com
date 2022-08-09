@@ -90,6 +90,7 @@ export default function BlogIndex() {
       <nav className="grid grid-cols-3 py-8 text-2xl font-bold">
         {previous !== null ? (
           <Link
+            prefetch="intent"
             to={`/posts/${previous.slug}`}
             className="text-brand-text"
           >{`${previous.meta.title} 👈`}</Link>
@@ -104,6 +105,7 @@ export default function BlogIndex() {
         </span>
         {next !== null ? (
           <Link
+            prefetch="intent"
             to={`/posts/${next.slug}`}
             className="text-brand-text"
           >{`👉 ${next.meta.title}`}</Link>

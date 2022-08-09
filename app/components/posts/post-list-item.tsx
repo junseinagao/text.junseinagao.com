@@ -17,7 +17,7 @@ export default function PostListItem({
   return (
     <li key={key} className="block">
       <div className="flex h-full w-full max-w-xl items-start gap-y-8 gap-x-4">
-        <Link to={`/posts/${slug}`} className="flex flex-col">
+        <Link to={`/posts/${slug}`} prefetch="intent" className="flex flex-col">
           <time className="inline-flex h-8 w-32 items-center justify-center rounded-md border border-solid border-brand-sub text-base text-current lg:text-xl">
             {formatDate(date)}
           </time>
@@ -37,6 +37,7 @@ export default function PostListItem({
           </ul>
           <Link
             to={`/posts/${slug}`}
+            prefetch="intent"
             className="link-hover flex flex-col gap-y-2"
           >
             <h1 className="text-2xl text-current lg:text-4xl">{title}</h1>
