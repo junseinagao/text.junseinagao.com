@@ -51,11 +51,6 @@ export default function App() {
   return (
     <html lang="ja" prefix="og: https://ogp.me/ns#">
       <head>
-        <Meta />
-        <Links />
-        <script async src="/font.js"></script>
-      </head>
-      <body className="bg-brand-base">
         {!gaTrackingId ? null : (
           <>
             <script
@@ -78,6 +73,11 @@ export default function App() {
             />
           </>
         )}
+        <Meta />
+        <Links />
+        <script async src="/font.js"></script>
+      </head>
+      <body className="bg-brand-base">
         <Header />
         <main className="container mx-auto flex flex-col items-center py-10 px-2 md:px-4">
           <Outlet />
