@@ -19,6 +19,24 @@ pre,code {
   --color-border-muted: #718791 !important;
 }
 
+@keyframes overlay-background {
+  0% {
+    background-color: #e7ebdf;
+  }
+  100% {
+    background-color: #ecf0d2;
+  }
+}
+
+.bg-overlay-animation {
+  animation: overlay-background 1s ease-in-out infinite alternate;
+}
+
+.wf-loading .loading-overlay {
+  opacity: 1;
+  animation: overlay-background 2000ms linear infinite alternate both;
+}
+
 
 
 .markdown-body * {
