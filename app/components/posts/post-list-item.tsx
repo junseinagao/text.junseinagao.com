@@ -28,7 +28,7 @@ export default function PostListItem({
           />
         </Link>
         <div className="group flex flex-1 flex-col items-stretch gap-4">
-          <ul className="flex h-8 list-none gap-x-2 text-base lg:text-xl">
+          <ul className="min-h-8 flex h-auto list-none flex-wrap gap-x-2 text-base lg:text-xl">
             {tags.map((tag, i) => (
               <li key={`tag-${slug}-${i}`} className="inline-block">
                 {tag}

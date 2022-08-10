@@ -50,7 +50,7 @@ export default function CustomRSSListItem({ item, feed, postType }: Props) {
           )}
         </a>
         <div className="group flex flex-1 flex-col items-stretch gap-4">
-          <ul className="flex h-8 list-none gap-x-2 text-base lg:text-xl">
+          <ul className="min-h-8 flex h-auto list-none flex-wrap gap-x-2 text-base lg:text-xl">
             <li className="inline-block">
               {postType.replace(/^[a-z]/, (char) => char.toUpperCase())}
             </li>

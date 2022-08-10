@@ -6,10 +6,9 @@ import type {
   QiitaCustomItem,
   ZennCustomFeed,
   ZennCustomItem,
-} from "~/lib/rss-utils.client";
+} from "~/model/rss";
 import { useRssParse } from "~/lib/rss-utils.client";
 import PostListItem from "./post-list-item";
-import ZennListItem from "./custom-rss-list-item";
 import { useMemo } from "react";
 import { parseToDayjs, sortByDayjs } from "~/lib/date-utils";
 import type dayjs from "dayjs";
