@@ -37,7 +37,7 @@ tags: ['ポエム']
 
 ![cloudflare](https://cdn.svgporn.com/logos/cloudflare.svg)
 
-インフラには、Cloudfalre Pages を採用しています。とりあえず、Cloudflare Worker を活用した構成にしてみたくて使っています。
+インフラには、Cloudflare Pages を採用しています。とりあえず、Cloudflare Worker を活用した構成にしてみたくて使っています。
 結果としてエッジサイドでは Node.js を使うことがほとんどできないので色々苦しいです。その代わり早さを手に入れてるはず。
 
 ### Features
