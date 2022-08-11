@@ -1,0 +1,19 @@
+.markdown-body {
+  font-size: 1.5rem;
+}
+
+.markdown-body h1 {
+  font-size: 2em;
+}
+
+.markdown-body h2 {
+  font-size: 1.75em;
+}
+
+.markdown-body h3 {
+  font-size: 1.5em;
+}
+
+.markdown-body * {
+  margin-bottom: 0.5rem;
+}
