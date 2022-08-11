@@ -4,6 +4,7 @@ const path = require("path");
 const chokidar = require("chokidar");
 const { bundleMDX } = require("mdx-bundler");
 const { marked } = require("marked");
+const { convert } = require("html-to-text");
 
 const TARGET_DIR_PATH = "content";
 const BUILD_DIR_NAME = "_markdowns";
@@ -96,14 +97,22 @@ async function makeMdIndex() {
             path.resolve(__dirname, OUTPUT_DIR_PATH, bundledPath),
             code
           );
+          const rawContent = marked(matter.content);
           const result = {
-            meta: frontmatter,
+            meta: {
+              ...frontmatter,
+              description:
+                convert(rawContent)
+                  .replaceAll(/\n/g, " ")
+                  .replaceAll(/\s+/g, " ")
+                  .slice(0, 97) + "...",
+            },
             slug: filePath.split(".")[0].replaceAll(/\s/g, "-"),
             url: "posts/" + filePath.split(".")[0].replaceAll(/\s/g, "-"),
             code: path
               .join(OUTPUT_DIR_PATH, bundledPath)
               .replace("public/", ""),
-            "raw-content": marked(matter.content),
+            "raw-content": rawContent,
           };
           results.push(result);
           if (results.length === filePathes.length) {

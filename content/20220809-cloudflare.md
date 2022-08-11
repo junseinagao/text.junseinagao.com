@@ -1,6 +1,5 @@
 ---
 title: Cloudflare Pagesのカスタムドメイン設定がすごい。
-description: このブログは、Cloudflareでドメインを取得して DNS も Cloudflare を使っています。 Cloudflare Pages を使ったときにカスタムドメインの設定が楽すぎてビビりました。
 date: 2022-08-09
 eyecatch: https://text.junseinagao.com/_images/cloudflare-eyecatch.png
 tags: ['Cloudflare','Cloudflare Pages','ドメイン']
