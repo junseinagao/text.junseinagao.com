@@ -1,7 +1,7 @@
 const initialOGP = {
   title: "text.junseinagao.com",
   description: "フロントエンドエンジニア junseinagao のブログ",
-  keywords: "フロントエンド エンジニア ブログ React Remix",
+  keywords: "junsei junseinagao フロントエンド エンジニア ブログ",
   image: "https://text.junseinagao.com/ogp.png",
 };
 
