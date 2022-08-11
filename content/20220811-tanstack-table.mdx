@@ -1,0 +1,188 @@
+---
+title: React Table v8 の基本的な使い方
+description:
+date: 2022-08-11
+eyecatch: https://raw.githubusercontent.com/tanstack/table/main/media/repo-header.png
+tags: ["ReactTable", "TanStack Table", "tips"]
+---
+
+# React Table v8 の基本的な使い方
+
+[TanStack Table v8 (旧 React Table)](https://github.com/TanStack/table)の使い方が分かりにくいので少し詳しめに解説を書きます。
+
+TanStack Table を使うには、 `data` と `columns` という 2 つのデータを用意した上で、レンダリングのヘルパー関数の挙動も把握する必要があります。
+
+### data
+
+テーブルに表示させたい `data` を配列で用意して `useReactTable()` のオプション渡します。
+
+僕の場合は、とりあえずここにバックエンドからとってきたデータをできるだけそのまま入れます。
+注意としては、1 プロパティ === 1 見出し みたいな形になるので、見出しを分けたい複数のデータは、一次元になるように展開して固有のキー名をつけるようにする必要があります。
+
+```ts
+type TableData = {
+  id: number;
+  name: string;
+  types: Array<string>;
+};
+
+const data: Array<TableData> = [
+  {
+    id: 483,
+    name: "ディアルガ",
+    types: ["はがね", "ドラゴン"],
+  },
+  {
+    id: 484,
+    name: "パルキア",
+    types: ["みず", "ドラゴン"],
+  },
+];
+```
+
+### columns
+
+`columns` にテーブルのヘッダーの情報を作って渡します。
+React Table は、この `columns` で定義した `id` と `data` のキー名が同じ場合に表示します。
+
+`columns` は、[createColumnHelper](https://github.com/TanStack/table/blob/main/packages/table-core/src/columnHelper.ts) を要素を生成するためのヘルパー関数を介して作ります。
+
+レンダリング時にカスタムしたコンポーネントでレンダリングしたい場合は、ここで `cell` にコンポーネントを渡します。
+
+他にも `header` や `footer` 等のプロパティもあります。 後に登場する `flexRender` で使います。
+
+```tsx
+const columnHelper = createColumnHelper<TableData>();
+
+const columns = [
+  columnHelper.accessor("id", {
+    header: "図鑑No.",
+  }),
+  columnHelper.accessor("name", {
+    header: "名前",
+  }),
+  columnHelper.accessor("types", {
+    header: "タイプ",
+    cell: (props) => (
+      <ul>
+        {props.getValue().map((type, index) => (
+          <li key={`type-${index}-${props.row.id}`}>{type}</li>
+        ))}
+      </ul>
+    ),
+  }),
+];
+```
+
+### レンダリング
+
+`useReactTable()` を使ってテーブルの情報を取得してレンダリングします。
+このとき、 `useReactTable()` には、 `getCoreRowModel:getCoreRowModel()` を渡す必要があります。
+
+`flexRender` というヘルパー関数に 行が持つ情報を渡して、`columns` で定義したコンポーネントがそれぞれの情報をレンダリングする仕組みです。
+
+```tsx
+import {
+  createColumnHelper,
+  useReactTable,
+  getCoreRowModel,
+  flexRender,
+} from "@tanstack/react-table";
+
+type TableData = {
+  id: number;
+  name: string;
+  types: Array<string>;
+};
+
+const data: Array<TableData> = [
+  {
+    id: 483,
+    name: "ディアルガ",
+    types: ["はがね", "ドラゴン"],
+  },
+  {
+    id: 484,
+    name: "パルキア",
+    types: ["みず", "ドラゴン"],
+  },
+];
+
+const columnHelper = createColumnHelper<TableData>();
+
+const columns = [
+  columnHelper.accessor("id", {
+    header: "図鑑No.",
+  }),
+  columnHelper.accessor("name", {
+    header: "名前",
+  }),
+  columnHelper.accessor("types", {
+    header: "タイプ",
+  }),
+];
+
+export default function App() {
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+  });
+
+  return (
+    <table>
+      <thead>
+        {table.getHeaderGroups().map((headerGroup) => (
+          <tr key={headerGroup.id}>
+            {headerGroup.headers.map((header) => (
+              <th key={header.id}>
+                {flexRender(
+                  header.column.columnDef.header,
+                  header.getContext()
+                )}
+              </th>
+            ))}
+          </tr>
+        ))}
+      </thead>
+      <tbody>
+        {table.getRowModel().rows.map((row) => (
+          <tr key={row.id}>
+            {row.getVisibleCells().map((cell) => (
+              <td key={cell.id}>
+                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+```
+
+# CodeSandbox
+
+[Example](https://codesandbox.io/s/react-table-v8-example-88423r?file=/src/App.tsx)
+
+<iframe
+  src="https://codesandbox.io/embed/react-table-v8-example-88423r?fontsize=14&hidenavigation=1&theme=dark"
+  style={{
+    width: "100%",
+    height: "500px",
+    border: 0,
+    borderRadius: "4px",
+    overflow: "hidden",
+  }}
+  title="react-table-v8-example"
+  allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+  sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+></iframe>
+
+# 終わりに
+
+最初、この仕様を把握するだけでもかなり大変でした。実は、ソートとフィルターの方が詰まりポイントが多いのですぐにその記事を書きます。
+
+React Table v7 から v8 へと最近メジャーバージョンアップが行われていて、 v8 もすごい勢いでマイナーバージョンアップが行われていきます。(マジで 3 日おきぐらいにリリースされてる。)どんどん使いやすくなってる感じがあるので期待ですね。
+
+~~(このライブラリ、[ドキュメント](https://tanstack.com/table/v8)に明記されてない挙動が多くて本当に読み手に行間を読むことを求めてくるので本当にツラい)~~
