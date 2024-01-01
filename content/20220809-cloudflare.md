@@ -1,7 +1,7 @@
 ---
 title: Cloudflare Pagesのカスタムドメイン設定がすごい。
 date: 2022-08-09
-eyecatch: https://text.junseinagao.com/_images/cloudflare-eyecatch.png
+eyecatch: https://i.gyazo.com/af0a639bd02f36cbd2dc94b6f78ffd9b.png
 tags: ['Cloudflare','Cloudflare Pages','ドメイン']
 ---
 
@@ -15,17 +15,17 @@ tags: ['Cloudflare','Cloudflare Pages','ドメイン']
 
 自分の場合は、 `junseinagao.com` を持っているので、`example.junseinagao.com` と入力して次へ進みます。
 
-![cloudflare screenshot 1](./images/20220809-cloudflare-1.png)
+![cloudflare screenshot 1](https://i.gyazo.com/359db42408519539d282fef408772073.png)
 
 ## ③ 追加したいカスタムドメインを入力する
 
 後は、 Cloudflare が設定してくれます。Awesomeかよ。
 
-![cloudflare screenshot 2](./images/20220809-cloudflare-2.png)
+![cloudflare screenshot 2](https://i.gyazo.com/ef4374dbd44c9e1608e22df942d59e43.png)
 
 # 終わりに
 
 Cloudflare はドメインを取得する時も色々設定しやすいように誘導してくれた記憶があります。
 Cloudflare最高！
 
-![cloudflare eyecatch](/_images/cloudflare-eyecatch.png)
+![cloudflare eyecatch](https://i.gyazo.com/af0a639bd02f36cbd2dc94b6f78ffd9b.png)
