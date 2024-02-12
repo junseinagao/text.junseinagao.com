@@ -68,7 +68,7 @@ export default function PostList({ posts, qiita, zenn, note }: PostListProps) {
           ...post,
           dayjsDate: parseToDayjs(post.meta.date),
           postType: "markdown-post",
-        } as MarkdownPost)
+        }) as MarkdownPost
     );
 
     const zennItems = zennRSS
@@ -78,7 +78,7 @@ export default function PostList({ posts, qiita, zenn, note }: PostListProps) {
               ...item,
               dayjsDate: parseToDayjs(item.isoDate!),
               postType: "zenn",
-            } as ZennPost)
+            }) as ZennPost
         )
       : [];
 
@@ -89,7 +89,7 @@ export default function PostList({ posts, qiita, zenn, note }: PostListProps) {
               ...item,
               dayjsDate: parseToDayjs(item.isoDate!),
               postType: "note",
-            } as NotePost)
+            }) as NotePost
         )
       : [];
 
@@ -100,7 +100,7 @@ export default function PostList({ posts, qiita, zenn, note }: PostListProps) {
               ...item,
               dayjsDate: parseToDayjs(item.isoDate!),
               postType: "qiita",
-            } as QiitaPost)
+            }) as QiitaPost
         )
       : [];
     return [...postItems, ...zennItems, ...noteItems, ...qiitaItems].sort(
