@@ -27,7 +27,7 @@ interface Props {
 }
 
 export const onRequest = vercelOGPagesPlugin<Props>({
-  imagePathSuffix: "/image.png",
+  imagePathSuffix: "/ogp.png",
   component: ({ ogTitle }) => {
     return (
       <div
@@ -71,4 +71,5 @@ export const onRequest = vercelOGPagesPlugin<Props>({
   autoInject: {
     openGraph: true,
   },
+  onError: () => new Response("Failed to generate OGP image", { status: 500 }),
 });
