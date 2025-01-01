@@ -71,5 +71,8 @@ export const onRequest = vercelOGPagesPlugin<Props>({
   autoInject: {
     openGraph: true,
   },
-  onError: () => new Response("Failed to generate OGP image", { status: 500 }),
+  onError: () => {
+    console.log("failed to generate ogp image");
+    return new Response("Failed to generate OGP image", { status: 500 });
+  },
 });
