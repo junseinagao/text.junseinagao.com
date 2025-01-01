@@ -4,17 +4,16 @@ import { type CollectionEntry, getCollection } from "astro:content";
 import { render } from "astro:content";
 import BaseHead from "../_BaseHead.astro";
 import RootLayout from "../_RootLayout.astro";
-export const prerender = true;
-export async function getStaticPaths() {
-  const posts = await getCollection("posts");
-  return posts.map((post) => ({
-    params: { slug: post.id },
-    props: post,
-  }));
-}
+import { getEntry } from "astro:content";
 type Props = CollectionEntry<"posts">;
-
-const post = Astro.props;
+const slug = Astro.params.slug;
+if (typeof slug !== "string") {
+  throw new Error("Invalid slug");
+}
+const post = await getEntry("posts", slug);
+if (!post) {
+  throw new Error("Post not found");
+}
 const { Content } = await render(post);
 ---
 
