@@ -1,23 +1,11 @@
 {
-  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx", "build-content.js"],
+  "extends": "astro/tsconfigs/strict",
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist"],
   "compilerOptions": {
-    "lib": ["DOM", "DOM.Iterable", "ES2021", "ES2021.String"],
-    "isolatedModules": true,
-    "esModuleInterop": true,
+    "strictNullChecks": true,
+    "types": ["@cloudflare/workers-types/2023-07-01"],
     "jsx": "react-jsx",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "target": "ES2021",
-    "strict": true,
-    "allowJs": true,
-    "forceConsistentCasingInFileNames": true,
-    "baseUrl": ".",
-    "paths": {
-      "~/*": ["./app/*"]
-    },
-    "types": ["@cloudflare/workers-types", "vitest/globals"],
-
-    // Remix takes care of building everything in `remix build`.
-    "noEmit": true
+    "jsxImportSource": "react"
   }
 }

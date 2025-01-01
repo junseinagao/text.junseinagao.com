@@ -1,0 +1,55 @@
+---
+import { getCollection } from "astro:content";
+import dayjs from "dayjs";
+import { PostType } from "../lib/rss-model";
+import BaseHead from "./_BaseHead.astro";
+import PostListItem from "./_PostListItem.astro";
+import RootLayout from "./_RootLayout.astro";
+
+import {
+  parseURL,
+  parseFeedItems,
+  type Post as PostData,
+} from "../lib/rss-utils";
+
+const posts = await getCollection("posts");
+const markdownPosts: PostData[] = posts.map((post) => {
+  return {
+    title: post.data.title,
+    link: `/posts/${post.id}`,
+    publishDate: post.data.date,
+    description: "",
+    thumbnailImage: post.data.eyecatch,
+    postType: PostType.MarkdownPost,
+    tags: post.data.tags ?? [],
+  };
+});
+
+const [zennRSS, noteRSS, qiitaRSS] = await Promise.all([
+  parseURL("https://zenn.dev/junseinagao/feed"),
+  parseURL("https://note.com/junsei_nagao/rss"),
+  parseURL("https://qiita.com/junseinagao/feed"),
+]);
+
+const zennItems = zennRSS ? parseFeedItems(zennRSS, PostType.Zenn) : [];
+const noteItems = noteRSS ? parseFeedItems(noteRSS, PostType.Note) : [];
+const qiitaItems = qiitaRSS ? parseFeedItems(qiitaRSS, PostType.Qiita) : [];
+
+const allPosts = [
+  ...markdownPosts,
+  ...zennItems,
+  ...noteItems,
+  ...qiitaItems,
+].sort((a, b) => (dayjs(a.publishDate).isAfter(dayjs(b.publishDate)) ? -1 : 1));
+---
+
+<RootLayout>
+  <Fragment slot="head">
+    <BaseHead />
+  </Fragment>
+  <section>
+    <ul class="flex flex-col gap-8 px-4">
+      {allPosts.map((post) => <PostListItem {...post} />)}
+    </ul>
+  </section>
+</RootLayout>

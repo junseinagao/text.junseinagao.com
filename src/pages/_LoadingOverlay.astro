@@ -1,0 +1,31 @@
+<script>
+  import FontFaceObserver from "fontfaceobserver";
+  const font = new FontFaceObserver("din-2014");
+  const disableLoadingOverlay = () => {
+    const loadingOverlay = document.getElementById("loading-overlay");
+    if (loadingOverlay) {
+      loadingOverlay.dataset.isFirstLoaded = "true";
+    }
+    localStorage.loadedFontFace = JSON.stringify(["din-2014"]);
+  };
+  document.addEventListener("DOMContentLoaded", () => {
+    if (localStorage.loadedFontFace) {
+      disableLoadingOverlay();
+    } else {
+      font.load().then(disableLoadingOverlay, disableLoadingOverlay);
+    }
+  });
+</script>
+
+<div
+  id="loading-overlay"
+  role="progressbar"
+  class="loading-overlay bg-overlay-animation pointer-events-none fixed top-0 left-0 flex h-full w-full items-center justify-center duration-300 data-[is-first-loaded=true]:opacity-0"
+  transition:persist
+>
+  <img
+    src="/images/junseinagao-outline.svg"
+    alt="text.junseinagao.com"
+    class="w-screen object-cover object-center"
+  />
+</div>

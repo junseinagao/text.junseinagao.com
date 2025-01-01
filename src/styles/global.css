@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-border-default: #718791;
+  --color-border-muted: #718791;
+  --color-brand-text: #2d363a;
+
+  --color-outer-space: #2d363a;
+  --color-oxford-blue: #2e3d4a;
+  --color-slate-gray: #718791;
+  --color-green-white: #e7ebdf;
+  --color-chrome-white: #ecf0d2;
+  --color-golden-sand: #f5e17e;
+  --color-apricot-peach: #f9babc;
+  --color-scooter: #37b9d7;
+
+  /* その他の色（in-dark, light, darkなどは固定値でも良い） */
+  --color-brand-text-light: #566064;
+  --color-brand-text-dark: #031014;
+  --color-brand-text-in-dark: #e7ebdf;
+
+  --color-brand-base-dark: #b5b9ad;
+  --color-brand-base-accent: #ecf0d2;
+  --color-brand-base-in-dark: #2d363a;
+
+  --color-brand-yellow-light: #ffffaf;
+  --color-brand-yellow-dark: #c0af4f;
+
+  --color-brand-red-light: #ffedee;
+  --color-brand-red-dark: #c58a8c;
+}
+
+@layer base {
+  body {
+    font-family:
+      din-2014,
+      toppan-bunkyu-gothic-pr6n,
+      source-han-sans-japanese,
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Roboto,
+      Oxygen,
+      Ubuntu,
+      Cantarell,
+      "Open Sans",
+      "Helvetica Neue",
+      sans-serif;
+  }
+
+  a {
+    transition: color 150ms;
+  }
+
+  a:hover,
+  a:focus,
+  a:active {
+    color: var(--color-brand-red-dark);
+    text-decoration: underline;
+    text-decoration-style: dashed;
+  }
+}
+
+@layer components {
+  @keyframes overlay-background {
+    0% {
+      background-color: var(--color-green-white);
+    }
+    100% {
+      background-color: var(--color-chrome-white);
+    }
+  }
+
+  .bg-overlay-animation {
+    animation: overlay-background 1s ease-out infinite alternate;
+  }
+}
