@@ -1,18 +1,26 @@
 <script>
   import FontFaceObserver from "fontfaceobserver";
-  const font = new FontFaceObserver("din-2014");
+  const din2024 = new FontFaceObserver("din-2014");
+  const toppanBunkyuGothicPr6n = new FontFaceObserver(
+    "toppan-bunkyu-gothic-pr6n"
+  );
   const disableLoadingOverlay = () => {
     const loadingOverlay = document.getElementById("loading-overlay");
     if (loadingOverlay) {
       loadingOverlay.dataset.isFirstLoaded = "true";
     }
-    localStorage.loadedFontFace = JSON.stringify(["din-2014"]);
+    localStorage.loadedFontFace = JSON.stringify([
+      "din-2014",
+      "toppan-bunkyu-gothic-pr6n",
+    ]);
   };
   document.addEventListener("DOMContentLoaded", () => {
     if (localStorage.loadedFontFace) {
       disableLoadingOverlay();
     } else {
-      font.load().then(disableLoadingOverlay, disableLoadingOverlay);
+      Promise.allSettled([din2024.load(), toppanBunkyuGothicPr6n.load()]).then(
+        disableLoadingOverlay
+      );
     }
   });
 </script>
