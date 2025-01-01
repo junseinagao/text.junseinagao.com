@@ -4,7 +4,7 @@ import { type CollectionEntry, getCollection } from "astro:content";
 import { render } from "astro:content";
 import BaseHead from "../_BaseHead.astro";
 import RootLayout from "../_RootLayout.astro";
-
+export const prerender = true;
 export async function getStaticPaths() {
   const posts = await getCollection("posts");
   return posts.map((post) => ({
