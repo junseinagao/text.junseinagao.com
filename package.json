@@ -20,6 +20,7 @@
     "@types/react-dom": "^19.0.2",
     "astro": "^5.0.5",
     "dayjs": "^1.11.13",
+    "fast-xml-parser": "^4.5.1",
     "fontfaceobserver": "^2.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
