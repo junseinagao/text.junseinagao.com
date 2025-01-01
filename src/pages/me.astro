@@ -1,0 +1,40 @@
+---
+import { getEntry, render } from "astro:content";
+import RootLayout from "./_RootLayout.astro";
+import BaseHead from "./_BaseHead.astro";
+
+const personalProfile = await getEntry("components", "personal-profile");
+if (!personalProfile) {
+  throw new Error("Me component not found");
+}
+const { Content: PersonalProfileContent } = await render(personalProfile);
+
+const businessProfile = await getEntry("components", "business-profile");
+if (!businessProfile) {
+  throw new Error("Me component not found");
+}
+const { Content: BusinessProfileContent } = await render(businessProfile);
+---
+
+<RootLayout>
+  <Fragment slot="head">
+    <BaseHead pageTitle="About me" />
+  </Fragment>
+
+  <div class="flex flex-wrap gap-4 container">
+    <section
+      class="border-2 border-dashed border-brand-sub p-4 lg:w-1/2 lg:flex-1 lg:mt-[10%]"
+    >
+      <div class="markdown-body grid grid-cols-1 gap-y-6 text-2xl">
+        <PersonalProfileContent />
+      </div>
+    </section>
+    <section
+      class="border-2 border-dashed border-brand-sub p-4 lg:w-1/2 lg:flex-1 lg:h-fit"
+    >
+      <div class="markdown-body grid grid-cols-1 gap-y-6 text-2xl">
+        <BusinessProfileContent />
+      </div>
+    </section>
+  </div>
+</RootLayout>

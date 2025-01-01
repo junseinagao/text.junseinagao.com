@@ -1,0 +1,59 @@
+---
+import { ViewTransitions } from "astro:transitions";
+import LoadingOverlay from "./_LoadingOverlay.astro";
+import "../styles/global.css";
+import "../styles/markdown.css";
+---
+
+<!doctype html>
+<html lang="ja" prefix="og: https://ogp.me/ns#">
+  <head>
+    <slot name="head" />
+    <ViewTransitions />
+  </head>
+  <body class="bg-brand-base">
+    <LoadingOverlay />
+    <header>
+      <div
+        class="items-center justify-center bg-brand-base-accent py-4 lg:py-6"
+      >
+        <div
+          class="text-center text-brand-text text-xs lg:text-xl tracking-widest"
+        >
+          長尾ソフトウェア開発事務所 情報まとめサイト
+        </div>
+        <a
+          href="/"
+          class="text-4xl leading-none text-brand-text underline lg:text-6xl font-din-2014 font-bold block w-fit h-fit mx-auto mt-0.5"
+        >
+          text.junseinagao.com
+        </a>
+      </div>
+      <nav
+        class="flex justify-center min-h-20 items-center border-t border-b border-solid border-brand-sub py-4"
+      >
+        <ul
+          class="grid list-none gap-x-5 text-2xl grid-cols-2 grid-rows-1 text-center text-brand-text"
+        >
+          <li>
+            <a href="/" class="link-hover">All Articles</a>
+          </li>
+          <li>
+            <a href="/me" class="link-hover">About</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main
+      class="container mx-auto flex flex-col items-center py-10 px-2 md:px-4"
+    >
+      <slot />
+    </main>
+    <footer
+      class="flex items-center justify-center bg-brand-base-accent py-4 text-brand-text"
+    >
+      © 2022-2025 Junsei Nagao. All rights reserved.
+    </footer>
+  </body>
+</html>
