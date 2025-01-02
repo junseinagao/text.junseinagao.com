@@ -3,12 +3,15 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 
 interface Props {
   pageTitle?: string;
+  pageDescription?: string;
   image?: string;
 }
 
-const { pageTitle, image = "/images/ogp.png" } = Astro.props;
+const { pageTitle, image = "/images/ogp.png", pageDescription } = Astro.props;
 const title = pageTitle ? `${pageTitle} | ${SITE_TITLE}` : SITE_TITLE;
-const description = SITE_DESCRIPTION;
+const description = pageDescription
+  ? `${SITE_DESCRIPTION} | ${pageDescription.slice(0, 50).concat("...")}`
+  : SITE_DESCRIPTION;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
