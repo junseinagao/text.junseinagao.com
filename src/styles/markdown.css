@@ -40,6 +40,10 @@
   text-decoration-style: dashed;
 }
 
+.markdown-body pre {
+  padding: 1rem;
+}
+
 .markdown-body pre,
 .markdown-body pre * {
   font-family:
