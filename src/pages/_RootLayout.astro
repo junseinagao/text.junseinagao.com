@@ -1,5 +1,5 @@
 ---
-import { ViewTransitions } from "astro:transitions";
+import { ClientRouter } from "astro:transitions";
 import "../styles/global.css";
 import "../styles/markdown.css";
 ---
@@ -8,7 +8,7 @@ import "../styles/markdown.css";
 <html lang="ja" prefix="og: https://ogp.me/ns#">
   <head>
     <slot name="head" />
-    <ViewTransitions />
+    <ClientRouter />
   </head>
   <body class="bg-brand-base">
     <header>
