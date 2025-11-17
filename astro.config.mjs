@@ -3,13 +3,13 @@ import cloudflare from "@astrojs/cloudflare";
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
-import tailwind from "@astrojs/tailwind";
+import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 
 // https://astro.build/config
 export default defineConfig({
   site: "https://text.junseinagao.com",
-  integrations: [mdx(), sitemap(), react(), tailwind()],
+  integrations: [mdx(), sitemap(), react()],
   vite: {
     resolve: {
       // @see https://github.com/facebook/react/issues/31827#issuecomment-2563094822
@@ -24,6 +24,7 @@ export default defineConfig({
               "/src/lib/vercel-og-stub.ts",
           },
     },
+    plugins: [tailwindcss()],
   },
   output: "server",
   adapter: cloudflare({

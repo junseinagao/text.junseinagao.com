@@ -1,6 +1,34 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@source "../src/**/*.{astro,html,js,jsx,md,mdx,ts,tsx}";
+@theme {
+  /* フォントファミリー */
+  --font-family-rampart-one: "Rampart One", sans-serif;
+  --font-family-din-2014: din-2014, sans-serif;
+  --font-family-toppan-bunkyu-gothic-pr6n:
+    toppan-bunkyu-gothic-pr6n, sans-serif;
+
+  /* カラー */
+  --color-brand-text: var(--color-outer-space);
+  --color-brand-text-light: #566064;
+  --color-brand-text-dark: #031014;
+  --color-brand-text-in-dark: var(--color-green-white);
+
+  --color-brand-base: var(--color-green-white);
+  --color-brand-base-dark: #b5b9ad;
+  --color-brand-base-accent: var(--color-chrome-white);
+  --color-brand-base-in-dark: var(--color-outer-space);
+
+  --color-brand-yellow: var(--color-golden-sand);
+  --color-brand-yellow-light: #ffffaf;
+  --color-brand-yellow-dark: #c0af4f;
+
+  --color-brand-red: var(--color-apricot-peach);
+  --color-brand-red-light: #ffedee;
+  --color-brand-red-dark: #c58a8c;
+
+  --color-brand-blue: var(--color-scooter);
+  --color-brand-sub: var(--color-slate-gray);
+}
 
 :root {
   --color-border-default: #718791;
