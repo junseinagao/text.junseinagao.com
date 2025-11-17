@@ -8,8 +8,8 @@
     "production": {
       "vars": {
         "GA_TRACKING_ID": "G-BKHNNHNZTP",
-        "GTM_CONTAINER_ID": "GTM-NJ3VCKK",
-      },
-    },
-  },
+        "GTM_CONTAINER_ID": "GTM-NJ3VCKK"
+      }
+    }
+  }
 }
