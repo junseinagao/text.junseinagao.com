@@ -12,12 +12,13 @@ import "../styles/markdown.css";
   </head>
   <body class="bg-brand-base">
     <header
-      class="sticky top-0 z-50 bg-brand-base-accent border-b border-brand-sub"
+      id="js-global-header"
+      class="sticky top-0 md:h-[100px] flex items-center z-50 bg-brand-base-accent border-b border-brand-sub shadow-[0_4px_12px_rgba(45,54,58,0.08),0_2px_4px_rgba(113,135,145,0.06)]"
     >
       <div
-        class="flex justify-between items-center py-2 px-2 md:py-3 md:pl-0 md:pr-8"
+        class="w-full h-full flex justify-between items-center px-2 md:pl-0 md:pr-8 md:pb-2"
       >
-        <a href="/" class="shink-0">
+        <a href="/" class="shrink-0 h-full flex items-center">
           <!-- Mobile Logo -->
           <img
             src="/images/return-j-only-typography-title.svg"
@@ -28,7 +29,7 @@ import "../styles/markdown.css";
           <img
             src="/images/return-j-english-with-ja-title.svg"
             alt="長尾ソフトウェア開発事務所「Return J」"
-            class="hidden md:block h-24 xl:h-32"
+            class="hidden md:block h-full object-contain transition-all duration-300 ease-in-out"
           />
         </a>
 
@@ -61,5 +62,54 @@ import "../styles/markdown.css";
         >© 2022-2025 Junsei Nagao. All rights reserved.</span
       >
     </footer>
+
+    <script>
+      function handleScroll() {
+        const header = document.getElementById("js-global-header");
+        if (!header) return;
+
+        const currentScroll = window.scrollY;
+        const startFade = 100; // フェード開始位置
+        const endFade = 200; // フェード終了位置
+
+        if (currentScroll <= startFade) {
+          // 完全表示
+          header.style.opacity = "1";
+          header.style.transform = "translateY(0)";
+          header.style.pointerEvents = "auto";
+        } else if (currentScroll >= endFade) {
+          // 完全非表示
+          header.style.opacity = "0";
+          header.style.transform = "translateY(-100%)";
+          header.style.pointerEvents = "none";
+        } else {
+          // 段階的に変化
+          const progress = (currentScroll - startFade) / (endFade - startFade);
+          header.style.opacity = String(1 - progress);
+          header.style.transform = `translateY(-${progress * 100}%)`;
+          header.style.pointerEvents = progress > 0.5 ? "none" : "auto";
+        }
+      }
+
+      let ticking = false;
+      function onScroll() {
+        if (!ticking) {
+          window.requestAnimationFrame(() => {
+            handleScroll();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }
+
+      // 初回実行
+      handleScroll();
+      window.addEventListener("scroll", onScroll, { passive: true });
+
+      // ClientRouter対応
+      document.addEventListener("astro:page-load", () => {
+        handleScroll();
+      });
+    </script>
   </body>
 </html>
