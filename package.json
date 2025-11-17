@@ -2,6 +2,11 @@
   "name": "text-junseinagao-com",
   "type": "module",
   "version": "2.0.0",
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "packageManager": "pnpm@9.15.0",
   "scripts": {
     "dev": "astro dev",
     "build": "astro check && astro build",
