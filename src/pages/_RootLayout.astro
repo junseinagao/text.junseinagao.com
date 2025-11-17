@@ -11,37 +11,42 @@ import "../styles/markdown.css";
     <ClientRouter />
   </head>
   <body class="bg-brand-base">
-    <header>
+    <header
+      class="sticky top-0 z-50 bg-brand-base-accent border-b border-brand-sub"
+    >
       <div
-        class="items-center justify-center bg-brand-base-accent py-4 lg:py-6"
+        class="flex justify-between items-center py-2 px-2 md:py-3 md:pl-0 md:pr-8"
       >
-        <div
-          class="text-center text-brand-text text-xs lg:text-xl tracking-widest"
-        >
-          長尾ソフトウェア開発事務所 情報まとめサイト
-        </div>
-        <a
-          href="/"
-          class="text-4xl leading-none text-brand-text underline lg:text-6xl font-din-2014 font-bold block w-fit h-fit mx-auto mt-0.5"
-        >
-          text.junseinagao.com
+        <a href="/" class="shink-0">
+          <!-- Mobile Logo -->
+          <img
+            src="/images/return-j-only-typography-title.svg"
+            alt="長尾ソフトウェア開発事務所「Return J」"
+            class="h-12 md:hidden"
+          />
+          <!-- Desktop Logo -->
+          <img
+            src="/images/return-j-english-with-ja-title.svg"
+            alt="長尾ソフトウェア開発事務所「Return J」"
+            class="hidden md:block h-24 xl:h-32"
+          />
         </a>
+
+        <!-- Navigation (Right) -->
+        <nav class="self-end md:pb-1">
+          <ul
+            class="flex gap-x-4 md:gap-x-8 text-lg md:text-2xl list-none text-brand-text"
+          >
+            <li>
+              <a href="/" class="link-hover">All Articles</a>
+            </li>
+            <li>
+              <a href="/me" class="link-hover">About</a>
+            </li>
+          </ul>
+        </nav>
       </div>
     </header>
-    <nav
-      class="flex justify-center min-h-20 items-center border-t border-b border-solid border-brand-sub py-4 sticky top-0 z-50 bg-[#e7ebdf] bg-opacity-90"
-    >
-      <ul
-        class="grid list-none gap-x-5 text-2xl grid-cols-2 grid-rows-1 text-center text-brand-text"
-      >
-        <li>
-          <a href="/" class="link-hover">All Articles</a>
-        </li>
-        <li>
-          <a href="/me" class="link-hover">About</a>
-        </li>
-      </ul>
-    </nav>
 
     <main
       class="container mx-auto flex flex-col items-center py-10 px-2 md:px-4"

@@ -4,6 +4,8 @@ import removeMarkdown from "remove-markdown";
 import { render } from "astro:content";
 import BaseHead from "../../_BaseHead.astro";
 import RootLayout from "../../_RootLayout.astro";
+import BlogPostJsonLd from "../../../components/BlogPostJsonLd.astro";
+import BreadcrumbJsonLd from "../../../components/BreadcrumbJsonLd.astro";
 export const prerender = true;
 export async function getStaticPaths() {
   const posts = await getCollection("posts");
@@ -29,6 +31,15 @@ const description = removeMarkdown(post.body!, {
       pageDescription={description}
       image={`/posts/${post.id}/ogp.png`}
     />
+    <BlogPostJsonLd
+      title={post.data.title}
+      description={description}
+      publishDate={post.data.date}
+      image={`/posts/${post.id}/ogp.png`}
+      slug={post.id}
+      tags={post.data.tags}
+    />
+    <BreadcrumbJsonLd title={post.data.title} slug={post.id} />
   </Fragment>
   <div
     class="container mx-auto mb-10 transition-opacity duration-300 xl:max-w-3xl 2xl:max-w-3xl aspect-[1200/630] relative"

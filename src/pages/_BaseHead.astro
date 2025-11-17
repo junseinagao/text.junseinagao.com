@@ -1,5 +1,6 @@
 ---
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+import WebSiteJsonLd from "../components/WebSiteJsonLd.astro";
 
 interface Props {
   pageTitle?: string;
@@ -82,3 +83,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     s.parentNode.insertBefore(tk, s);
   })(document);
 </script>
+
+<!-- JSON-LD Structured Data -->
+<WebSiteJsonLd />

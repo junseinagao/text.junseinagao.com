@@ -1,0 +1,18 @@
+---
+import { SITE_URL, SITE_DESCRIPTION, AUTHOR_NAME } from "../consts";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "長尾ソフトウェア開発事務所",
+  url: SITE_URL,
+  description: SITE_DESCRIPTION,
+  publisher: {
+    "@type": "Person",
+    name: AUTHOR_NAME,
+  },
+  inLanguage: "ja",
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />
