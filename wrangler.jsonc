@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "text-junseinagao-com",
+  "compatibility_date": "2024-12-05",
+  "compatibility_flags": ["nodejs_compat"],
+  "pages_build_output_dir": "./dist",
+  "env": {
+    "production": {
+      "vars": {
+        "GA_TRACKING_ID": "G-BKHNNHNZTP",
+        "GTM_CONTAINER_ID": "GTM-NJ3VCKK",
+      },
+    },
+  },
+}
