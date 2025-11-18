@@ -24,6 +24,7 @@
     "@astrojs/sitemap": "^3.6.0",
     "@cloudflare/pages-plugin-vercel-og": "^0.1.2",
     "@tailwindcss/vite": "^4.1.17",
+    "@tanstack/react-table": "^8.21.3",
     "astro": "^5.15.8",
     "dayjs": "^1.11.13",
     "fast-xml-parser": "^4.5.3",

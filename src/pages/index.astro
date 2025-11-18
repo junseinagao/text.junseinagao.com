@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 import dayjs from "dayjs";
 import { PostType } from "../lib/rss-model";
 import BaseHead from "./_BaseHead.astro";
-import PostListItem from "./_PostListItem.astro";
+import { PostList } from "../components/PostList";
 import RootLayout from "./_RootLayout.astro";
 
 import {
@@ -48,8 +48,6 @@ const allPosts = [
     <BaseHead />
   </Fragment>
   <section>
-    <ul class="flex flex-col gap-8 px-4">
-      {allPosts.map((post) => <PostListItem {...post} />)}
-    </ul>
+    <PostList posts={allPosts} client:load />
   </section>
 </RootLayout>
