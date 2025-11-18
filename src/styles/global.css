@@ -7,34 +7,7 @@
   --font-family-toppan-bunkyu-gothic-pr6n:
     toppan-bunkyu-gothic-pr6n, sans-serif;
 
-  /* カラー */
-  --color-brand-text: var(--color-outer-space);
-  --color-brand-text-light: #566064;
-  --color-brand-text-dark: #031014;
-  --color-brand-text-in-dark: var(--color-green-white);
-
-  --color-brand-base: var(--color-green-white);
-  --color-brand-base-dark: #b5b9ad;
-  --color-brand-base-accent: var(--color-chrome-white);
-  --color-brand-base-in-dark: var(--color-outer-space);
-
-  --color-brand-yellow: var(--color-golden-sand);
-  --color-brand-yellow-light: #ffffaf;
-  --color-brand-yellow-dark: #c0af4f;
-
-  --color-brand-red: var(--color-apricot-peach);
-  --color-brand-red-light: #ffedee;
-  --color-brand-red-dark: #c58a8c;
-
-  --color-brand-blue: var(--color-scooter);
-  --color-brand-sub: var(--color-slate-gray);
-}
-
-:root {
-  --color-border-default: #718791;
-  --color-border-muted: #718791;
-  --color-brand-text: #2d363a;
-
+  /* 基本カラーパレット（プリミティブ） */
   --color-outer-space: #2d363a;
   --color-oxford-blue: #2e3d4a;
   --color-slate-gray: #718791;
@@ -44,20 +17,47 @@
   --color-apricot-peach: #f9babc;
   --color-scooter: #37b9d7;
 
-  /* その他の色（in-dark, light, darkなどは固定値でも良い） */
+  /* ブランドカラー - テキスト */
+  --color-brand-text: var(--color-outer-space);
   --color-brand-text-light: #566064;
   --color-brand-text-dark: #031014;
-  --color-brand-text-in-dark: #e7ebdf;
+  --color-brand-text-in-dark: var(--color-green-white);
 
+  /* ブランドカラー - ベース */
+  --color-brand-base: var(--color-green-white);
   --color-brand-base-dark: #b5b9ad;
-  --color-brand-base-accent: #ecf0d2;
-  --color-brand-base-in-dark: #2d363a;
+  --color-brand-base-accent: var(--color-chrome-white);
+  --color-brand-base-in-dark: var(--color-outer-space);
 
+  /* ブランドカラー - イエロー */
+  --color-brand-yellow: var(--color-golden-sand);
   --color-brand-yellow-light: #ffffaf;
   --color-brand-yellow-dark: #c0af4f;
 
+  /* ブランドカラー - レッド */
+  --color-brand-red: var(--color-apricot-peach);
   --color-brand-red-light: #ffedee;
   --color-brand-red-dark: #c58a8c;
+
+  /* ブランドカラー - ブルー */
+  --color-brand-blue: var(--color-scooter);
+
+  /* ブランドカラー - サブ */
+  --color-brand-sub: var(--color-slate-gray);
+
+  /* ボーダー */
+  --color-border-default: var(--color-slate-gray);
+  --color-border-muted: var(--color-slate-gray);
+
+  /* プラットフォームブランドカラー */
+  --color-platform-blog: #323941;
+  --color-platform-zenn: #3ea8ff;
+  --color-platform-note: #000000;
+  --color-platform-qiita: #55c500;
+
+  /* フィルターUI */
+  --color-filter-inactive: var(--color-slate-gray);
+  --color-filter-hover-dim: #d1d5db;
 }
 
 @layer base {
