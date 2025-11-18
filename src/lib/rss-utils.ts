@@ -1,4 +1,4 @@
-import { XMLParser } from "fast-xml-parser";
+import { extract } from "@extractus/feed-extractor";
 import dayjs from "dayjs";
 import { PostType } from "./rss-model";
 export * from "./rss-model";
@@ -29,55 +29,42 @@ export type RSSParserOutput<Item> = {
   items: Item[];
 };
 
-function transformItem(item: any): RSSItem {
-  const title = item.title ?? "";
-  const link = item.link ?? "";
-  const pubDate = item.pubDate ?? "";
-
-  let snippet = item.description ?? "";
-  if (!snippet && item["content:encoded"]) {
-    snippet = item["content:encoded"];
-  }
-  snippet = snippet.replace(/<[^>]*>/g, "");
-
-  let enclosureUrl = "";
-  if (item.enclosure && item.enclosure["@_url"]) {
-    enclosureUrl = item.enclosure["@_url"];
-  }
-
-  let categories: string[] = [];
-  if (typeof item.category === "string") {
-    categories = [item.category];
-  } else if (Array.isArray(item.category)) {
-    categories = item.category;
-  }
-
-  return {
-    title,
-    contentSnippet: snippet,
-    link,
-    enclosure: { url: enclosureUrl },
-    isoDate: pubDate,
-    categories,
-  };
-}
-
 export async function parseURL(url: string): Promise<RSSParserOutput<RSSItem>> {
-  const response = await fetch(url);
-  const xml = await response.text();
+  try {
+    const result = await extract(url, {
+      useISODateFormat: true,
+      normalization: true,
+      getExtraEntryFields: (feedEntry: any) => {
+        const extra: any = {};
 
-  const parser = new XMLParser({ ignoreAttributes: false });
-  const parsed = parser.parse(xml);
+        if (feedEntry.category) {
+          extra.categories = Array.isArray(feedEntry.category)
+            ? feedEntry.category
+            : [feedEntry.category];
+        }
 
-  const channel = parsed?.rss?.channel;
-  if (!channel || !channel.item) {
+        return extra;
+      },
+    });
+
+    if (!result || !result.entries) {
+      return { items: [] };
+    }
+
+    const items: RSSItem[] = result.entries.map((entry: any) => ({
+      title: entry.title ?? "",
+      contentSnippet: entry.description ?? "",
+      link: entry.link ?? "",
+      enclosure: { url: "" },
+      isoDate: entry.published ?? "",
+      categories: entry.categories ?? [],
+    }));
+
+    return { items };
+  } catch (error) {
+    console.warn(`Unable to parse feed from ${url}:`, error);
     return { items: [] };
   }
-
-  const itemsArray = Array.isArray(channel.item) ? channel.item : [channel.item];
-  const items = itemsArray.map(transformItem);
-
-  return { items };
 }
 
 export function parseFeedItems(
