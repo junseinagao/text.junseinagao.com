@@ -9,6 +9,7 @@ import {
   type SortingState,
   type ColumnFiltersState,
 } from "@tanstack/react-table";
+import { motion, AnimatePresence } from "motion/react";
 import dayjs from "dayjs";
 import { PostType } from "../lib/rss-model";
 import type { Post } from "../lib/rss-utils";
@@ -314,48 +315,42 @@ export const PostList = ({ posts }: PostListProps) => {
         onToggle={togglePostType}
       />
       <ul className="flex flex-col gap-8">
-        {table.getRowModel().rows.map((row) => {
-          const post = row.original;
+        <AnimatePresence initial={false} mode="popLayout">
+          {table.getRowModel().rows.map((row, index) => {
+            const post = row.original;
 
-          return (
-            <li key={row.id} className="block">
-              <div className="flex h-full w-full max-w-xl items-start gap-x-4 gap-y-8">
-                <a
-                  href={post.link}
-                  className="flex flex-col"
-                  {...(post.postType !== PostType.MarkdownPost
-                    ? { target: "_blank" as const, rel: "noopener noreferrer" }
-                    : {})}
+            return (
+              <motion.li
+                key={row.id}
+                layout
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{
+                  duration: 0.4,
+                  ease: "easeOut",
+                  delay: index * 0.05,
+                  layout: { duration: 0.3, ease: "easeInOut" },
+                }}
+                className="block"
+                style={{ overflow: "hidden" }}
+              >
+                <motion.div
+                  layout
+                  initial={{ x: 20, scale: 0.95, opacity: 0 }}
+                  animate={{ x: 0, scale: 1, opacity: 1 }}
+                  exit={{ x: -100, scale: 0.95, opacity: 0 }}
+                  transition={{
+                    duration: 0.4,
+                    ease: "easeOut",
+                    delay: index * 0.05,
+                    layout: { duration: 0.3, ease: "easeInOut" },
+                  }}
+                  className="flex h-full w-full max-w-xl items-start gap-x-4 gap-y-8"
                 >
-                  <time className="border-brand-sub inline-flex h-8 w-32 items-center justify-center rounded-md border border-solid text-base text-current lg:text-xl">
-                    {dayjs(post.publishDate).format("YYYY-MM-DD")}
-                  </time>
-                  <PostIcon
-                    postType={post.postType}
-                    thumbnailImage={post.thumbnailImage}
-                    title={post.title}
-                  />
-                </a>
-                <div className="group flex flex-1 flex-col items-stretch gap-4">
-                  <ul className="flex h-auto min-h-8 list-none flex-wrap gap-x-2 text-base lg:text-xl">
-                    <li className="inline-block">
-                      {post.postType === PostType.Note
-                        ? "Note"
-                        : post.postType === PostType.Zenn
-                          ? "Zenn"
-                          : post.postType === PostType.Qiita
-                            ? "Qiita"
-                            : ""}
-                    </li>
-                    {post.tags.map((tag) => (
-                      <li key={tag} className="inline-block">
-                        {tag}
-                      </li>
-                    ))}
-                  </ul>
                   <a
                     href={post.link}
-                    className="link-hover flex flex-col gap-y-2"
+                    className="flex flex-col"
                     {...(post.postType !== PostType.MarkdownPost
                       ? {
                           target: "_blank" as const,
@@ -363,19 +358,56 @@ export const PostList = ({ posts }: PostListProps) => {
                         }
                       : {})}
                   >
-                    <h1 className="text-2xl text-current lg:text-4xl">
-                      {post.title}
-                    </h1>
-                    <p className="text-base text-current lg:text-xl">
-                      {post.description.slice(0, 50)}
-                      {post.description.length >= 50 && "..."}
-                    </p>
+                    <time className="border-brand-sub inline-flex h-8 w-32 items-center justify-center rounded-md border border-solid text-base text-current lg:text-xl">
+                      {dayjs(post.publishDate).format("YYYY-MM-DD")}
+                    </time>
+                    <PostIcon
+                      postType={post.postType}
+                      thumbnailImage={post.thumbnailImage}
+                      title={post.title}
+                    />
                   </a>
-                </div>
-              </div>
-            </li>
-          );
-        })}
+                  <div className="group flex flex-1 flex-col items-stretch gap-4">
+                    <ul className="flex h-auto min-h-8 list-none flex-wrap gap-x-2 text-base lg:text-xl">
+                      <li className="inline-block">
+                        {post.postType === PostType.Note
+                          ? "Note"
+                          : post.postType === PostType.Zenn
+                            ? "Zenn"
+                            : post.postType === PostType.Qiita
+                              ? "Qiita"
+                              : ""}
+                      </li>
+                      {post.tags.map((tag) => (
+                        <li key={tag} className="inline-block">
+                          {tag}
+                        </li>
+                      ))}
+                    </ul>
+                    <a
+                      href={post.link}
+                      className="link-hover flex flex-col gap-y-2"
+                      {...(post.postType !== PostType.MarkdownPost
+                        ? {
+                            target: "_blank" as const,
+                            rel: "noopener noreferrer",
+                          }
+                        : {})}
+                    >
+                      <h1 className="text-2xl text-current lg:text-4xl">
+                        {post.title}
+                      </h1>
+                      <p className="text-base text-current lg:text-xl">
+                        {post.description.slice(0, 50)}
+                        {post.description.length >= 50 && "..."}
+                      </p>
+                    </a>
+                  </div>
+                </motion.div>
+              </motion.li>
+            );
+          })}
+        </AnimatePresence>
       </ul>
 
       {/* ページネーション */}
