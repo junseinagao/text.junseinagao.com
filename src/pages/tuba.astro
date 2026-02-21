@@ -1,0 +1,165 @@
+---
+import { actions } from "astro:actions";
+import RootLayout from "./_RootLayout.astro";
+import BaseHead from "./_BaseHead.astro";
+
+const result = Astro.getActionResult(actions.contact);
+
+async function fetchOgp(url: string) {
+  try {
+    const res = await fetch(url, {
+      headers: { "User-Agent": "Mozilla/5.0 (compatible; bot/1.0)" },
+    });
+    const html = await res.text();
+    const getMeta = (prop: string) => {
+      const m =
+        html.match(
+          new RegExp(
+            `<meta[^>]+property=["']${prop}["'][^>]+content=["']([^"']+)["']`,
+            "i"
+          )
+        ) ??
+        html.match(
+          new RegExp(
+            `<meta[^>]+content=["']([^"']+)["'][^>]+property=["']${prop}["']`,
+            "i"
+          )
+        );
+      return m?.[1] ?? "";
+    };
+    return {
+      url,
+      title: getMeta("og:title").split("|")[0].trim(),
+      description: getMeta("og:description"),
+      image: getMeta("og:image"),
+    };
+  } catch {
+    return { url, title: url, description: "", image: "" };
+  }
+}
+
+const noteLinks = [
+  "https://note.com/junsei_nagao/n/n644b5c35b43a",
+  "https://note.com/junsei_nagao/n/n40f8d56f7621",
+];
+const ogpCards = await Promise.all(noteLinks.map(fetchOgp));
+---
+
+<RootLayout>
+  <Fragment slot="head">
+    <BaseHead pageTitle="Tuba Activities" />
+  </Fragment>
+
+  <div class="flex flex-wrap gap-4 container">
+    <section
+      class="border-2 border-dashed border-brand-sub p-4 lg:w-1/2 lg:flex-1 lg:mt-[10%]"
+    >
+      <div class="markdown-body grid grid-cols-1 gap-y-6 text-2xl">
+        <h1>Tuba Activities</h1>
+        <p>
+          このような活動をWebサイトに掲載するのは2000年代的なカルチャーではありますが、個人事業における広報活動の一環として、チューバによる演奏活動を行っております。（アマチュアです。）
+        </p>
+        <p>どのような演奏活動をしているかについては、こちらの記事をごらんください</p>
+
+        <div class="grid grid-cols-1 gap-4 lg:max-w-2xl lg:mx-auto">
+          {
+            ogpCards.map((ogp) => (
+              <a
+                href={ogp.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="ogp-card flex flex-col border border-brand-sub overflow-hidden"
+              >
+                {ogp.image && (
+                  <img
+                    src={ogp.image}
+                    alt=""
+                    class="w-full aspect-[1.91/1] object-cover border-b border-brand-sub"
+                  />
+                )}
+                <div class="flex flex-col gap-1 px-3 py-2">
+                  <p class="font-bold text-base leading-snug line-clamp-2 m-0 text-brand-text">
+                    {ogp.title}
+                  </p>
+                  <p class="text-xs text-brand-sub m-0">note.com</p>
+                </div>
+              </a>
+            ))
+          }
+        </div>
+
+        <p>
+          愛知・名古屋近辺で<strong
+            >エキストラ、またはオケチューバに乗る機会を探しております。</strong
+          >よろしければ、以下のフォームからご連絡ください。
+        </p>
+        <hr />
+        {
+          result?.data?.success ? (
+            <p class="text-brand-text border border-brand-sub p-4 lg:max-w-2xl lg:w-full lg:mx-auto">
+              お問い合わせを受け付けました。ありがとうございます。
+            </p>
+          ) : (
+            <form method="POST" action={actions.contact} class="grid grid-cols-1 gap-4 lg:max-w-2xl lg:w-full lg:mx-auto">
+              {result?.error && (
+                <p class="text-red-500 text-sm border border-red-400 p-3">
+                  {result.error.message || "エラーが発生しました。再度お試しください。"}
+                </p>
+              )}
+              <div class="grid grid-cols-1 gap-1">
+                <label for="name" class="text-base">お名前 <span class="text-red-500">*</span></label>
+                <input
+                  id="name"
+                  type="text"
+                  name="name"
+                  required
+                  class="border border-brand-sub bg-transparent p-2 text-base text-brand-text focus:outline-none focus:border-brand-text"
+                />
+              </div>
+              <div class="grid grid-cols-1 gap-1">
+                <label for="email" class="text-base">メールアドレス <span class="text-red-500">*</span></label>
+                <input
+                  id="email"
+                  type="email"
+                  name="email"
+                  required
+                  class="border border-brand-sub bg-transparent p-2 text-base text-brand-text focus:outline-none focus:border-brand-text"
+                />
+              </div>
+              <div class="grid grid-cols-1 gap-1">
+                <label for="message" class="text-base">メッセージ <span class="text-red-500">*</span></label>
+                <textarea
+                  id="message"
+                  name="message"
+                  required
+                  rows={6}
+                  class="border border-brand-sub bg-transparent p-2 text-base text-brand-text focus:outline-none focus:border-brand-text resize-y"
+                />
+              </div>
+              <button
+                type="submit"
+                class="border border-brand-sub px-6 py-2 text-base text-brand-text hover:bg-brand-base-accent transition-colors cursor-pointer self-start"
+              >
+                送信する
+              </button>
+            </form>
+          )
+        }
+      </div>
+    </section>
+  </div>
+</RootLayout>
+
+<style>
+  .ogp-card {
+    color: inherit;
+    text-decoration: none;
+    transition: background-color 150ms;
+  }
+  .ogp-card:hover,
+  .ogp-card:focus {
+    color: inherit;
+    text-decoration: none;
+    background-color: var(--color-brand-base-accent);
+  }
+</style>
