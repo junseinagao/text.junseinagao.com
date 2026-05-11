@@ -1,5 +1,6 @@
 import { ActionError, defineAction } from "astro:actions";
 import { z } from "astro:schema";
+import { env } from "cloudflare:workers";
 
 export const server = {
   contact: defineAction({
@@ -12,8 +13,7 @@ export const server = {
         .max(256),
       message: z.string().min(1, "メッセージを入力してください").max(2048),
     }),
-    handler: async ({ name, email, message }, context) => {
-      const env = context.locals.runtime.env;
+    handler: async ({ name, email, message }) => {
       const to = env.CONTACT_TO_EMAIL;
       const from = env.CONTACT_FROM_EMAIL;
       const secretKey = env.PLUNK_SECRET_KEY;
