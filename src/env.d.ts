@@ -10,8 +10,9 @@ declare namespace Cloudflare {
   }
 }
 
+// oxlint-disable-next-line typescript/consistent-type-imports -- ambient .d.ts must remain a global script (no top-level imports)
 type Runtime = import("@astrojs/cloudflare").Runtime;
 
 declare namespace App {
-  interface Locals extends Runtime {}
+  type Locals = Runtime;
 }

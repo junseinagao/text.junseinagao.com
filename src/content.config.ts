@@ -4,10 +4,10 @@ import { defineCollection, z } from "astro:content";
 const posts = defineCollection({
   loader: glob({ base: "./src/content/blog", pattern: "**/*.{md,mdx}" }),
   schema: z.object({
-    title: z.string(),
     date: z.coerce.date(),
     eyecatch: z.string(),
     tags: z.array(z.string()),
+    title: z.string(),
   }),
 });
 
@@ -16,4 +16,4 @@ const components = defineCollection({
   schema: z.object({}),
 });
 
-export const collections = { posts, components };
+export const collections = { components, posts };

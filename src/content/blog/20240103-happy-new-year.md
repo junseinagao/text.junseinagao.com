@@ -96,7 +96,7 @@ export const GET: APIRoute = async ({ params }) => {
     {
       width: 1200,
       height: 630,
-    },
+    }
   );
 };
 ```
@@ -160,7 +160,7 @@ export const GET: APIRoute = async ({ params }) => {
     {
       width: 1200,
       height: 630,
-    },
+    }
   );
 };
 ```

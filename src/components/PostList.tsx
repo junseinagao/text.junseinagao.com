@@ -1,27 +1,52 @@
-import { useMemo, useState } from "react";
 import {
   useReactTable,
   getCoreRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   getFilteredRowModel,
-  type ColumnDef,
-  type SortingState,
-  type ColumnFiltersState,
 } from "@tanstack/react-table";
-import { motion, AnimatePresence } from "motion/react";
+import type {
+  ColumnDef,
+  SortingState,
+  ColumnFiltersState,
+} from "@tanstack/react-table";
 import dayjs from "dayjs";
+import { motion, AnimatePresence } from "motion/react";
+import { useMemo, useState } from "react";
+
 import { PostType } from "../lib/rss-model";
 import type { Post } from "../lib/rss-utils";
 import { BlogIcon } from "./icons/BlogIcon";
-import { ZennIcon } from "./icons/ZennIcon";
 import { NoteIcon } from "./icons/NoteIcon";
 import { QiitaIcon } from "./icons/QiitaIcon";
+import { ZennIcon } from "./icons/ZennIcon";
 
-type PostTypeFiltersProps = {
+const ALL_POST_TYPES: readonly PostType[] = [
+  PostType.MarkdownPost,
+  PostType.Zenn,
+  PostType.Note,
+  PostType.Qiita,
+];
+
+const POST_TYPE_LABEL: Record<PostType, string> = {
+  [PostType.MarkdownPost]: "",
+  [PostType.Note]: "Note",
+  [PostType.Zenn]: "Zenn",
+  [PostType.Qiita]: "Qiita",
+};
+
+const EXTERNAL_LINK_PROPS = {
+  rel: "noopener noreferrer",
+  target: "_blank",
+} as const;
+
+const getLinkProps = (postType: PostType) =>
+  postType === PostType.MarkdownPost ? {} : EXTERNAL_LINK_PROPS;
+
+interface PostTypeFiltersProps {
   selectedPostTypes: Set<PostType>;
   onToggle: (postType: PostType) => void;
-};
+}
 
 const PostTypeFilters = ({
   selectedPostTypes,
@@ -39,16 +64,21 @@ const PostTypeFilters = ({
     // 全選択に戻る場合は、全てのボタンをアクティブカラーで表示
     if (willToggleToAll) {
       switch (postType) {
-        case PostType.MarkdownPost:
+        case PostType.MarkdownPost: {
           return "var(--color-platform-blog)";
-        case PostType.Zenn:
+        }
+        case PostType.Zenn: {
           return "var(--color-platform-zenn)";
-        case PostType.Note:
+        }
+        case PostType.Note: {
           return "var(--color-platform-note)";
-        case PostType.Qiita:
+        }
+        case PostType.Qiita: {
           return "var(--color-platform-qiita)";
-        default:
+        }
+        default: {
           return "var(--color-filter-inactive)";
+        }
       }
     }
 
@@ -60,16 +90,21 @@ const PostTypeFilters = ({
     // 通常時：選択状態に応じた色を表示
     if (selectedPostTypes.has(postType)) {
       switch (postType) {
-        case PostType.MarkdownPost:
+        case PostType.MarkdownPost: {
           return "var(--color-platform-blog)";
-        case PostType.Zenn:
+        }
+        case PostType.Zenn: {
           return "var(--color-platform-zenn)";
-        case PostType.Note:
+        }
+        case PostType.Note: {
           return "var(--color-platform-note)";
-        case PostType.Qiita:
+        }
+        case PostType.Qiita: {
           return "var(--color-platform-qiita)";
-        default:
+        }
+        default: {
           return "var(--color-filter-inactive)";
+        }
       }
     }
     return "var(--color-filter-inactive)";
@@ -131,33 +166,36 @@ const PostTypeFilters = ({
   );
 };
 
-type PostIconProps = {
+interface PostIconProps {
   postType: PostType;
   thumbnailImage: string;
   title: string;
-};
+}
 
 const PostIcon = ({ postType, thumbnailImage, title }: PostIconProps) => {
   switch (postType) {
-    case PostType.Zenn:
+    case PostType.Zenn: {
       return (
         <div style={{ color: "var(--color-platform-zenn)" }}>
           <ZennIcon className="h-32 w-32 rounded-3xl p-6" />
         </div>
       );
-    case PostType.Note:
+    }
+    case PostType.Note: {
       return (
         <div style={{ color: "var(--color-platform-note)" }}>
           <NoteIcon className="h-32 w-32 rounded-3xl p-6" />
         </div>
       );
-    case PostType.Qiita:
+    }
+    case PostType.Qiita: {
       return (
         <div style={{ color: "var(--color-platform-qiita)" }}>
           <QiitaIcon className="h-32 w-32 rounded-3xl p-6" />
         </div>
       );
-    case PostType.MarkdownPost:
+    }
+    case PostType.MarkdownPost: {
       return thumbnailImage ? (
         <img
           src={thumbnailImage}
@@ -165,18 +203,20 @@ const PostIcon = ({ postType, thumbnailImage, title }: PostIconProps) => {
           className="h-32 w-32 rounded-3xl object-cover p-4"
         />
       ) : null;
-    default:
+    }
+    default: {
       return null;
+    }
   }
 };
 
-type PostListProps = {
+interface PostListProps {
   posts: Post[];
-};
+}
 
 export const PostList = ({ posts }: PostListProps) => {
   const [sorting, setSorting] = useState<SortingState>([
-    { id: "publishDate", desc: true },
+    { desc: true, id: "publishDate" },
   ]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
@@ -184,30 +224,25 @@ export const PostList = ({ posts }: PostListProps) => {
     () => [
       {
         accessorKey: "publishDate",
-        header: "Date",
         cell: (info) => dayjs(info.getValue() as Date).format("YYYY-MM-DD"),
+        header: "Date",
         sortingFn: "datetime",
       },
       {
         accessorKey: "postType",
-        header: "Type",
-        cell: (info) => {
-          const postType = info.getValue() as PostType;
-          return postType === PostType.Note
-            ? "Note"
-            : postType === PostType.Zenn
-              ? "Zenn"
-              : postType === PostType.Qiita
-                ? "Qiita"
-                : "";
-        },
+        cell: (info) => POST_TYPE_LABEL[info.getValue() as PostType],
         filterFn: (row, columnId, filterValue) => {
-          if (!filterValue) return true;
+          if (!filterValue) {
+            return true;
+          }
           const selectedTypes = filterValue as Set<PostType>;
           // 全てのタイプが選択されている場合は全て表示
-          if (selectedTypes.size === 4) return true;
+          if (selectedTypes.size === 4) {
+            return true;
+          }
           return selectedTypes.has(row.getValue(columnId) as PostType);
         },
+        header: "Type",
       },
       {
         accessorKey: "title",
@@ -219,15 +254,17 @@ export const PostList = ({ posts }: PostListProps) => {
       },
       {
         accessorKey: "tags",
-        header: "Tags",
         cell: (info) => (info.getValue() as string[]).join(", "),
         filterFn: (row, columnId, filterValue) => {
-          if (!filterValue) return true;
+          if (!filterValue) {
+            return true;
+          }
           const tags = row.getValue(columnId) as string[];
           return tags.some((tag) =>
-            tag.toLowerCase().includes(filterValue.toLowerCase()),
+            tag.toLowerCase().includes(filterValue.toLowerCase())
           );
         },
+        header: "Tags",
       },
       {
         accessorKey: "thumbnailImage",
@@ -238,70 +275,51 @@ export const PostList = ({ posts }: PostListProps) => {
         header: "Link",
       },
     ],
-    [],
+    []
   );
 
   const table = useReactTable({
-    data: posts,
     columns,
-    state: {
-      sorting,
-      columnFilters,
-    },
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
+    data: posts,
     getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
     initialState: {
-      pagination: {
-        pageSize: 10,
-      },
       columnFilters: [
         {
           id: "postType",
-          value: new Set([
-            PostType.MarkdownPost,
-            PostType.Zenn,
-            PostType.Note,
-            PostType.Qiita,
-          ]),
+          value: new Set(ALL_POST_TYPES),
         },
       ],
+      pagination: {
+        pageSize: 10,
+      },
+    },
+    onColumnFiltersChange: setColumnFilters,
+    onSortingChange: setSorting,
+    state: {
+      columnFilters,
+      sorting,
     },
   });
 
   const getSelectedPostTypes = (): Set<PostType> => {
     const column = table.getColumn("postType");
     return (
-      (column?.getFilterValue() as Set<PostType>) ||
-      new Set([
-        PostType.MarkdownPost,
-        PostType.Zenn,
-        PostType.Note,
-        PostType.Qiita,
-      ])
+      (column?.getFilterValue() as Set<PostType>) || new Set(ALL_POST_TYPES)
     );
   };
 
   const togglePostType = (postType: PostType) => {
     const column = table.getColumn("postType");
     const currentFilter = getSelectedPostTypes();
-
-    let newFilter: Set<PostType>;
-    // 既にそのタイプのみが選択されている場合は、全選択に戻す
-    if (currentFilter.size === 1 && currentFilter.has(postType)) {
-      newFilter = new Set([
-        PostType.MarkdownPost,
-        PostType.Zenn,
-        PostType.Note,
-        PostType.Qiita,
-      ]);
-    } else {
-      // それ以外の場合は、そのタイプのみを選択
-      newFilter = new Set([postType]);
-    }
+    const isOnlyThisType =
+      currentFilter.size === 1 && currentFilter.has(postType);
+    // 既にそのタイプのみが選択されている場合は全選択に戻す、それ以外はそのタイプのみを選択
+    const newFilter = isOnlyThisType
+      ? new Set(ALL_POST_TYPES)
+      : new Set([postType]);
 
     column?.setFilterValue(newFilter);
   };
@@ -327,9 +345,9 @@ export const PostList = ({ posts }: PostListProps) => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{
+                  delay: index * 0.05,
                   duration: 0.4,
                   ease: "easeOut",
-                  delay: index * 0.05,
                   layout: { duration: 0.3, ease: "easeInOut" },
                 }}
                 className="block"
@@ -337,13 +355,13 @@ export const PostList = ({ posts }: PostListProps) => {
               >
                 <motion.div
                   layout
-                  initial={{ x: 20, scale: 0.95, opacity: 0 }}
-                  animate={{ x: 0, scale: 1, opacity: 1 }}
-                  exit={{ x: -100, scale: 0.95, opacity: 0 }}
+                  initial={{ opacity: 0, scale: 0.95, x: 20 }}
+                  animate={{ opacity: 1, scale: 1, x: 0 }}
+                  exit={{ opacity: 0, scale: 0.95, x: -100 }}
                   transition={{
+                    delay: index * 0.05,
                     duration: 0.4,
                     ease: "easeOut",
-                    delay: index * 0.05,
                     layout: { duration: 0.3, ease: "easeInOut" },
                   }}
                   className="flex h-full w-full max-w-xl items-start gap-x-4 gap-y-8"
@@ -351,14 +369,9 @@ export const PostList = ({ posts }: PostListProps) => {
                   <a
                     href={post.link}
                     className="flex flex-col"
-                    {...(post.postType !== PostType.MarkdownPost
-                      ? {
-                          target: "_blank" as const,
-                          rel: "noopener noreferrer",
-                        }
-                      : {})}
+                    {...getLinkProps(post.postType)}
                   >
-                    <time className="border-brand-sub inline-flex h-8 w-32 items-center justify-center rounded-md border border-solid text-base text-current lg:text-xl">
+                    <time className="inline-flex h-8 w-32 items-center justify-center rounded-md border border-solid border-brand-sub text-base text-current lg:text-xl">
                       {dayjs(post.publishDate).format("YYYY-MM-DD")}
                     </time>
                     <PostIcon
@@ -370,13 +383,7 @@ export const PostList = ({ posts }: PostListProps) => {
                   <div className="group flex flex-1 flex-col items-stretch gap-4">
                     <ul className="flex h-auto min-h-8 list-none flex-wrap gap-x-2 text-base lg:text-xl">
                       <li className="inline-block">
-                        {post.postType === PostType.Note
-                          ? "Note"
-                          : post.postType === PostType.Zenn
-                            ? "Zenn"
-                            : post.postType === PostType.Qiita
-                              ? "Qiita"
-                              : ""}
+                        {POST_TYPE_LABEL[post.postType]}
                       </li>
                       {post.tags.map((tag) => (
                         <li key={tag} className="inline-block">
@@ -387,12 +394,7 @@ export const PostList = ({ posts }: PostListProps) => {
                     <a
                       href={post.link}
                       className="link-hover flex flex-col gap-y-2"
-                      {...(post.postType !== PostType.MarkdownPost
-                        ? {
-                            target: "_blank" as const,
-                            rel: "noopener noreferrer",
-                          }
-                        : {})}
+                      {...getLinkProps(post.postType)}
                     >
                       <h1 className="text-2xl text-current lg:text-4xl">
                         {post.title}
@@ -415,32 +417,32 @@ export const PostList = ({ posts }: PostListProps) => {
         <button
           onClick={() => table.setPageIndex(0)}
           disabled={!table.getCanPreviousPage()}
-          className="border-brand-sub text-brand-text rounded-md border px-4 py-2 text-base disabled:opacity-50 lg:text-xl"
+          className="rounded-md border border-brand-sub px-4 py-2 text-base text-brand-text disabled:opacity-50 lg:text-xl"
         >
           {"<<"}
         </button>
         <button
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
-          className="border-brand-sub text-brand-text rounded-md border px-4 py-2 text-base disabled:opacity-50 lg:text-xl"
+          className="rounded-md border border-brand-sub px-4 py-2 text-base text-brand-text disabled:opacity-50 lg:text-xl"
         >
           {"<"}
         </button>
-        <span className="text-brand-text text-base lg:text-xl">
+        <span className="text-base text-brand-text lg:text-xl">
           Page {table.getState().pagination.pageIndex + 1} of{" "}
           {table.getPageCount()}
         </span>
         <button
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
-          className="border-brand-sub text-brand-text rounded-md border px-4 py-2 text-base disabled:opacity-50 lg:text-xl"
+          className="rounded-md border border-brand-sub px-4 py-2 text-base text-brand-text disabled:opacity-50 lg:text-xl"
         >
           {">"}
         </button>
         <button
           onClick={() => table.setPageIndex(table.getPageCount() - 1)}
           disabled={!table.getCanNextPage()}
-          className="border-brand-sub text-brand-text rounded-md border px-4 py-2 text-base disabled:opacity-50 lg:text-xl"
+          className="rounded-md border border-brand-sub px-4 py-2 text-base text-brand-text disabled:opacity-50 lg:text-xl"
         >
           {">>"}
         </button>

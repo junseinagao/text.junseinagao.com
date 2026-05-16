@@ -12,8 +12,8 @@ export const AUTHOR_URL = "https://text.junseinagao.com/me";
 
 // Social links
 export const SOCIAL_LINKS = {
+  note: "https://note.com/junsei_nagao",
+  qiita: "https://qiita.com/junseinagao",
   twitter: "https://x.com/junpai_code",
   zenn: "https://zenn.dev/junseinagao",
-  qiita: "https://qiita.com/junseinagao",
-  note: "https://note.com/junsei_nagao",
 } as const;

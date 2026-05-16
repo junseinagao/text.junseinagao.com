@@ -8,8 +8,16 @@ import { defineConfig } from "astro/config";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://text.junseinagao.com",
+  adapter: cloudflare({
+    imageService: "compile",
+  }),
   integrations: [mdx(), sitemap(), react()],
+  output: "server",
+  // MEMO: Cloudflare Adapter が自動で SESSION KV を有効化するが、このサイトは使わないので無効化する。
+  session: {
+    driver: "memory",
+  },
+  site: "https://text.junseinagao.com",
   vite: {
     plugins: [tailwindcss()],
     resolve: {
@@ -25,13 +33,5 @@ export default defineConfig({
               "/src/lib/vercel-og-stub.ts",
           },
     },
-  },
-  output: "server",
-  adapter: cloudflare({
-    imageService: "compile",
-  }),
-  // MEMO: Cloudflare Adapter が自動で SESSION KV を有効化するが、このサイトは使わないので無効化する。
-  session: {
-    driver: "memory",
   },
 });

@@ -15,26 +15,26 @@ const { title, description, publishDate, image, slug, tags = [] } = Astro.props;
 const schema = {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  headline: title,
-  description: description,
-  image: `${SITE_URL}${image}`,
-  datePublished: publishDate.toISOString(),
-  dateModified: publishDate.toISOString(),
   author: {
     "@type": "Person",
     name: AUTHOR_NAME,
     url: AUTHOR_URL,
   },
+  dateModified: publishDate.toISOString(),
+  datePublished: publishDate.toISOString(),
+  description,
+  headline: title,
+  image: `${SITE_URL}${image}`,
+  inLanguage: "ja",
+  keywords: tags.join(", "),
+  mainEntityOfPage: {
+    "@id": `${SITE_URL}/posts/${slug}`,
+    "@type": "WebPage",
+  },
   publisher: {
     "@type": "Person",
     name: AUTHOR_NAME,
   },
-  mainEntityOfPage: {
-    "@type": "WebPage",
-    "@id": `${SITE_URL}/posts/${slug}`,
-  },
-  keywords: tags.join(", "),
-  inLanguage: "ja",
 };
 ---
 

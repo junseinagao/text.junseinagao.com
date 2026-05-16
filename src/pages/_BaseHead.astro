@@ -11,7 +11,7 @@ interface Props {
 const { pageTitle, image = "/images/ogp.png", pageDescription } = Astro.props;
 const title = pageTitle ? `${pageTitle} | ${SITE_TITLE}` : SITE_TITLE;
 const description = pageDescription
-  ? `${SITE_DESCRIPTION} | ${pageDescription.slice(0, 50).concat("...")}`
+  ? `${SITE_DESCRIPTION} | ${pageDescription.slice(0, 50)}...`
   : SITE_DESCRIPTION;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
@@ -19,10 +19,19 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 <!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="icon" type="image/png" href="/favicons/favicon-96x96.png" sizes="96x96" />
+<link
+  rel="icon"
+  type="image/png"
+  href="/favicons/favicon-96x96.png"
+  sizes="96x96"
+/>
 <link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg" />
 <link rel="shortcut icon" href="/favicons/favicon.ico" />
-<link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png" />
+<link
+  rel="apple-touch-icon"
+  sizes="180x180"
+  href="/favicons/apple-touch-icon.png"
+/>
 <link rel="manifest" href="/favicons/site.webmanifest" />
 <meta name="generator" content={Astro.generator} />
 
@@ -53,32 +62,34 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 <!-- Adobe Fonts -->
 <link rel="stylesheet" href="https://use.typekit.net/kev1txv.css" />
 <script is:inline>
+  /* oxlint-disable eqeqeq, func-names, no-empty, no-multi-assign, prefer-const, prefer-destructuring, sort-vars, unicorn/prefer-add-event-listener -- Adobe Fonts (Typekit) 公式の非同期ローダースニペット。元のままにする */
   (function (d) {
-    var config = {
+    let config = {
+        async: true,
         kitId: "eve8byh",
         scriptTimeout: 3000,
-        async: true,
       },
       h = d.documentElement,
-      t = setTimeout(function () {
-        h.className =
-          h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+      t = setTimeout(function t() {
+        h.className = `${h.className.replaceAll(/\bwf-loading\b/gu, "")} wf-inactive`;
       }, config.scriptTimeout),
       tk = d.createElement("script"),
       f = false,
-      s = d.getElementsByTagName("script")[0],
+      s = d.querySelectorAll("script")[0],
       a;
     h.className += " wf-loading";
-    tk.src = "https://use.typekit.net/" + config.kitId + ".js";
+    tk.src = `https://use.typekit.net/${config.kitId}.js`;
     tk.async = true;
-    tk.onload = tk.onreadystatechange = function () {
+    tk.onload = tk.onreadystatechange = function onreadystatechange() {
       a = this.readyState;
-      if (f || (a && a != "complete" && a != "loaded")) return;
+      if (f || (a && a != "complete" && a != "loaded")) {
+        return;
+      }
       f = true;
       clearTimeout(t);
       try {
         Typekit.load(config);
-      } catch (e) {}
+      } catch {}
     };
     s.parentNode.insertBefore(tk, s);
   })(document);

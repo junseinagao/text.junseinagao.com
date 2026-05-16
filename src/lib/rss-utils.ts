@@ -1,10 +1,10 @@
 import { extract } from "@extractus/feed-extractor";
 import dayjs from "dayjs";
-import { PostType } from "./rss-model";
+
+import type { PostType } from "./rss-model";
 export * from "./rss-model";
 
-
-export type Post = {
+export interface Post {
   title: string;
   description: string;
   link: string;
@@ -12,9 +12,9 @@ export type Post = {
   postType: PostType;
   publishDate: Date;
   tags: string[];
-};
+}
 
-export type RSSItem = {
+export interface RSSItem {
   title?: string;
   contentSnippet?: string;
   link?: string;
@@ -23,61 +23,66 @@ export type RSSItem = {
   };
   isoDate?: string;
   categories?: string[];
-};
+}
 
-export type RSSParserOutput<Item> = {
+export interface RSSParserOutput<Item> {
   items: Item[];
-};
+}
 
-export async function parseURL(url: string): Promise<RSSParserOutput<RSSItem>> {
+export const parseURL = async (
+  url: string
+): Promise<RSSParserOutput<RSSItem>> => {
   try {
     const result = await extract(url, {
-      useISODateFormat: true,
-      normalization: true,
-      getExtraEntryFields: (feedEntry: any) => {
-        const extra: any = {};
+      getExtraEntryFields: (feedEntry) => {
+        const entry = feedEntry as unknown as Record<string, unknown>;
+        const extra: Record<string, unknown> = {};
 
-        if (feedEntry.category) {
-          extra.categories = Array.isArray(feedEntry.category)
-            ? feedEntry.category
-            : [feedEntry.category];
+        if (entry.category) {
+          extra.categories = Array.isArray(entry.category)
+            ? entry.category
+            : [entry.category];
         }
 
         return extra;
       },
+      normalization: true,
+      useISODateFormat: true,
     });
 
     if (!result || !result.entries) {
       return { items: [] };
     }
 
-    const items: RSSItem[] = result.entries.map((entry: any) => ({
-      title: entry.title ?? "",
-      contentSnippet: entry.description ?? "",
-      link: entry.link ?? "",
-      enclosure: { url: "" },
-      isoDate: entry.published ?? "",
-      categories: entry.categories ?? [],
-    }));
+    const items: RSSItem[] = result.entries.map((rawEntry) => {
+      const entry = rawEntry as unknown as Record<string, unknown>;
+      return {
+        categories: (entry.categories as string[]) ?? [],
+        contentSnippet: (entry.description as string) ?? "",
+        enclosure: { url: "" },
+        isoDate: (entry.published as string) ?? "",
+        link: (entry.link as string) ?? "",
+        title: (entry.title as string) ?? "",
+      };
+    });
 
     return { items };
   } catch (error) {
     console.warn(`Unable to parse feed from ${url}:`, error);
     return { items: [] };
   }
-}
+};
 
-export function parseFeedItems(
+export const parseFeedItems = (
   feed: RSSParserOutput<RSSItem>,
   postType: PostType
-): Post[] {
-  return feed.items.map((item) => ({
-    title: item.title ?? "",
+): Post[] =>
+  feed.items.map((item) => ({
     description: item.contentSnippet ?? "",
     link: item.link ?? "#",
-    thumbnailImage: item.enclosure?.url ?? "",
-    publishDate: dayjs(item.isoDate).toDate(),
     postType,
+    publishDate: dayjs(item.isoDate).toDate(),
     tags: item.categories ?? [],
+    thumbnailImage: item.enclosure?.url ?? "",
+    title: item.title ?? "",
   }));
-}

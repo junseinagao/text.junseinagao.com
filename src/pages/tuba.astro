@@ -5,7 +5,7 @@ import BaseHead from "./_BaseHead.astro";
 
 const result = Astro.getActionResult(actions.contact);
 
-async function fetchOgp(url: string) {
+const fetchOgp = async (url: string) => {
   try {
     const res = await fetch(url, {
       headers: { "User-Agent": "Mozilla/5.0 (compatible; bot/1.0)" },
@@ -16,27 +16,27 @@ async function fetchOgp(url: string) {
         html.match(
           new RegExp(
             `<meta[^>]+property=["']${prop}["'][^>]+content=["']([^"']+)["']`,
-            "i"
+            "iu"
           )
         ) ??
         html.match(
           new RegExp(
             `<meta[^>]+content=["']([^"']+)["'][^>]+property=["']${prop}["']`,
-            "i"
+            "iu"
           )
         );
       return m?.[1] ?? "";
     };
     return {
-      url,
-      title: getMeta("og:title").split("|")[0].trim(),
       description: getMeta("og:description"),
       image: getMeta("og:image"),
+      title: getMeta("og:title").split("|")[0].trim(),
+      url,
     };
   } catch {
-    return { url, title: url, description: "", image: "" };
+    return { description: "", image: "", title: url, url };
   }
-}
+};
 
 const noteLinks = [
   "https://note.com/junsei_nagao/n/n644b5c35b43a",

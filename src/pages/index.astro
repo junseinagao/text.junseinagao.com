@@ -6,24 +6,19 @@ import BaseHead from "./_BaseHead.astro";
 import { PostList } from "../components/PostList";
 import RootLayout from "./_RootLayout.astro";
 
-import {
-  parseURL,
-  parseFeedItems,
-  type Post as PostData,
-} from "../lib/rss-utils";
+import { parseURL, parseFeedItems } from '../lib/rss-utils';
+import type { Post as PostData } from '../lib/rss-utils';
 
 const posts = await getCollection("posts");
-const markdownPosts: PostData[] = posts.map((post) => {
-  return {
-    title: post.data.title,
-    link: `/posts/${post.id}`,
-    publishDate: post.data.date,
+const markdownPosts: PostData[] = posts.map((post) => ({
     description: "",
-    thumbnailImage: post.data.eyecatch,
+    link: `/posts/${post.id}`,
     postType: PostType.MarkdownPost,
+    publishDate: post.data.date,
     tags: post.data.tags ?? [],
-  };
-});
+    thumbnailImage: post.data.eyecatch,
+    title: post.data.title,
+  }));
 
 const [zennRSS, noteRSS, qiitaRSS] = await Promise.all([
   parseURL("https://zenn.dev/junseinagao/feed"),
@@ -40,7 +35,7 @@ const allPosts = [
   ...zennItems,
   ...noteItems,
   ...qiitaItems,
-].sort((a, b) => (dayjs(a.publishDate).isAfter(dayjs(b.publishDate)) ? -1 : 1));
+].toSorted((a, b) => (dayjs(a.publishDate).isAfter(dayjs(b.publishDate)) ? -1 : 1));
 ---
 
 <RootLayout>

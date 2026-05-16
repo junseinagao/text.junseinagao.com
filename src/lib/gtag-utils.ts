@@ -59,17 +59,19 @@ class GTM {
     document.body.insertBefore(noscript, document.body.childNodes[0]);
   }
 
-  push(...args: any[]) {
+  // oxlint-disable-next-line class-methods-use-this -- 将来 this を使う拡張余地を残すためインスタンスメソッドのまま
+  push(...args: unknown[]) {
     if (!window) {
       warn("GTM push works only on client side.");
       return;
     }
 
-    if (!(window as any).dataLayer) {
-      (window as any).dataLayer = [];
+    const w = window as unknown as { dataLayer?: unknown[] };
+    if (!w.dataLayer) {
+      w.dataLayer = [];
     }
 
-    (window as any).dataLayer.push(...args);
+    w.dataLayer.push(...args);
   }
 }
 

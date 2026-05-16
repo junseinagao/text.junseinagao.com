@@ -67,13 +67,15 @@ import "../styles/markdown.css";
     </footer>
 
     <script>
-      function handleScroll() {
-        const header = document.getElementById("js-global-header");
-        if (!header) return;
+      const handleScroll = () => {
+        const header = document.querySelector<HTMLElement>("#js-global-header");
+        if (!header) {return;}
 
         const currentScroll = window.scrollY;
-        const startFade = 100; // フェード開始位置
-        const endFade = 200; // フェード終了位置
+        // フェード開始位置
+        const startFade = 100;
+        // フェード終了位置
+        const endFade = 200;
 
         if (currentScroll <= startFade) {
           // 完全表示
@@ -92,10 +94,10 @@ import "../styles/markdown.css";
           header.style.transform = `translateY(-${progress * 100}%)`;
           header.style.pointerEvents = progress > 0.5 ? "none" : "auto";
         }
-      }
+      };
 
       let ticking = false;
-      function onScroll() {
+      const onScroll = () => {
         if (!ticking) {
           window.requestAnimationFrame(() => {
             handleScroll();
@@ -103,7 +105,7 @@ import "../styles/markdown.css";
           });
           ticking = true;
         }
-      }
+      };
 
       // 初回実行
       handleScroll();

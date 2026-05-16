@@ -1,3 +1,6 @@
+// oxlint-disable-next-line unicorn/no-abusive-eslint-disable
+// oxlint-disable
+
 import { ImageResponse } from "@cloudflare/pages-plugin-vercel-og/api";
 import type { APIRoute } from "astro";
 import { getEntry } from "astro:content";
@@ -5,15 +8,15 @@ import React from "react";
 
 async function loadFont() {
   const titles = await fetch(
-    "https://text.junseinagao.com/posts/titles.txt",
+    "https://text.junseinagao.com/posts/titles.txt"
   ).then((res) => res.text());
   const text = titles.split("\n").join("長尾ソフトウェア開発事務所");
   const css = await fetch(
-    `https://fonts.googleapis.com/css2?family=Noto+Sans+JP&text=${encodeURIComponent(text)}`,
+    `https://fonts.googleapis.com/css2?family=Noto+Sans+JP&text=${encodeURIComponent(text)}`
   ).then((res) => res.text());
 
   const resource = css.match(
-    /src: url\((.+)\) format\('(opentype|truetype)'\)/,
+    /src: url\((.+)\) format\('(opentype|truetype)'\)/
   );
 
   if (resource) {
@@ -27,7 +30,7 @@ async function loadFont() {
 }
 
 export const GET: APIRoute = async ({ params }) => {
-  const slug = params.slug;
+  const { slug } = params;
   if (!slug) {
     return new Response("Not Found", { status: 404 });
   }
@@ -37,31 +40,11 @@ export const GET: APIRoute = async ({ params }) => {
   }
   const clipLength = 60;
   const text =
-    title.length > clipLength ? title.slice(0, clipLength) + "..." : title;
+    title.length > clipLength ? `${title.slice(0, clipLength)}...` : title;
 
   return new ImageResponse(
     React.createElement("div", {
-      style: {
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        width: "100%",
-        height: "100%",
-        padding: "30px",
-        background: "linear-gradient(135deg,#e7ebdf, #ecf0d2)",
-      },
       children: React.createElement("div", {
-        style: {
-          display: "flex",
-          alignItems: "flex-start",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          width: "100%",
-          height: "100%",
-          padding: "20px",
-          backgroundColor: "#fdfff1",
-          borderRadius: "50px",
-        },
         children: [
           React.createElement("h1", {
             style: {
@@ -104,18 +87,38 @@ export const GET: APIRoute = async ({ params }) => {
             ],
           }),
         ],
+        style: {
+          alignItems: "flex-start",
+          backgroundColor: "#fdfff1",
+          borderRadius: "50px",
+          display: "flex",
+          flexDirection: "column",
+          height: "100%",
+          justifyContent: "space-between",
+          padding: "20px",
+          width: "100%",
+        },
       }),
+      style: {
+        alignItems: "center",
+        background: "linear-gradient(135deg,#e7ebdf, #ecf0d2)",
+        display: "flex",
+        height: "100%",
+        justifyContent: "center",
+        padding: "30px",
+        width: "100%",
+      },
     }),
     {
-      width: 1200,
-      height: 630,
       fonts: [
         {
-          name: "NotoSansJP",
           data: await loadFont(),
+          name: "NotoSansJP",
           style: "normal",
         },
       ],
-    },
+      height: 630,
+      width: 1200,
+    }
   );
 };

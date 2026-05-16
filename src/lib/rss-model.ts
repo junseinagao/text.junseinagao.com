@@ -5,20 +5,16 @@ export enum PostType {
   Qiita = "qiita",
 }
 
-export type NoteCustomFeed = {
+export interface NoteCustomFeed {
   copyright: string;
   language: string;
   lastBuildDate: string;
-};
-export type NoteCustomItem = {};
+}
 
-export type ZennCustomFeed = {
+export interface ZennCustomFeed {
   language: string;
   lastBuildDate: string;
-};
-export type ZennCustomItem = {
+}
+export interface ZennCustomItem {
   "dc:creator": string;
-};
-
-export type QiitaCustomFeed = {};
-export type QiitaCustomItem = {};
+}
