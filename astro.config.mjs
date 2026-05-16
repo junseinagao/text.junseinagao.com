@@ -11,6 +11,7 @@ export default defineConfig({
   site: "https://text.junseinagao.com",
   integrations: [mdx(), sitemap(), react()],
   vite: {
+    plugins: [tailwindcss()],
     resolve: {
       // @see https://github.com/facebook/react/issues/31827#issuecomment-2563094822
       // Use react-dom/server.edge instead of react-dom/server.browser for React 19.
@@ -24,7 +25,6 @@ export default defineConfig({
               "/src/lib/vercel-og-stub.ts",
           },
     },
-    plugins: [tailwindcss()],
   },
   output: "server",
   adapter: cloudflare({

@@ -25,3 +25,8 @@ pnpm-debug.log*
 
 # cloudflare wrangler
 .wrangler/
+
+# IDE
+.claude/
+.windsurf/
+.cursor/

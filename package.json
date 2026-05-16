@@ -1,19 +1,16 @@
 {
   "name": "text-junseinagao-com",
-  "type": "module",
   "version": "2.0.0",
-  "engines": {
-    "node": ">=22.0.0",
-    "pnpm": ">=9.0.0"
-  },
-  "packageManager": "pnpm@9.15.0",
+  "type": "module",
   "scripts": {
     "dev": "astro dev",
     "build": "astro check && astro build",
     "preview": "wrangler dev --config dist/server/wrangler.json",
     "astro": "astro",
     "wrangler": "wrangler",
-    "prepreview": "pnpm build"
+    "prepreview": "pnpm build",
+    "check": "ultracite check",
+    "fix": "ultracite fix"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.9",
@@ -40,9 +37,15 @@
     "@types/fontfaceobserver": "^2.1.3",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "prettier": "^3.8.3",
-    "prettier-plugin-tailwindcss": "^0.8.0",
+    "oxfmt": "^0.49.0",
+    "oxlint": "^1.64.0",
     "typescript": "^6.0.3",
+    "ultracite": "7.7.0",
     "wrangler": "^4.90.1"
-  }
+  },
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "packageManager": "pnpm@9.15.0"
 }
