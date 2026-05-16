@@ -17,32 +17,32 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.9",
-    "@astrojs/cloudflare": "^13.5.0",
-    "@astrojs/mdx": "^5.0.4",
-    "@astrojs/react": "^5.0.4",
+    "@astrojs/cloudflare": "^13.5.1",
+    "@astrojs/mdx": "^5.0.5",
+    "@astrojs/react": "^5.0.5",
     "@astrojs/rss": "^4.0.18",
     "@astrojs/sitemap": "^3.7.2",
     "@cloudflare/pages-plugin-vercel-og": "^0.1.2",
     "@extractus/feed-extractor": "^7.2.1",
     "@tailwindcss/vite": "^4.3.0",
     "@tanstack/react-table": "^8.21.3",
-    "astro": "^6.3.1",
+    "astro": "^6.3.2",
     "dayjs": "^1.11.20",
     "fontfaceobserver": "^2.3.0",
     "motion": "^12.38.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
-    "remove-markdown": "^0.6.3",
+    "remove-markdown": "^0.6.4",
     "tailwindcss": "^4.3.0"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20260509.1",
+    "@cloudflare/workers-types": "^4.20260511.1",
     "@types/fontfaceobserver": "^2.1.3",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "prettier": "^3.8.3",
     "prettier-plugin-tailwindcss": "^0.8.0",
     "typescript": "^6.0.3",
-    "wrangler": "^4.90.0"
+    "wrangler": "^4.90.1"
   }
 }
