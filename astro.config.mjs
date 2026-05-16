@@ -30,4 +30,8 @@ export default defineConfig({
   adapter: cloudflare({
     imageService: "compile",
   }),
+  // MEMO: Cloudflare Adapter が自動で SESSION KV を有効化するが、このサイトは使わないので無効化する。
+  session: {
+    driver: "memory",
+  },
 });
