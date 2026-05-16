@@ -1,7 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "text-junseinagao-com",
-  "compatibility_date": "2026-05-16",
+  "compatibility_date": "2024-12-05",
   "compatibility_flags": ["nodejs_compat"],
   "vars": {
     "GA_TRACKING_ID": "G-BKHNNHNZTP",
