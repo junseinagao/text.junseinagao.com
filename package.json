@@ -45,12 +45,7 @@
   },
   "engines": {
     "node": ">=24.0.0",
-    "pnpm": ">=9.0.0"
+    "pnpm": ">=11.0.0"
   },
-  "packageManager": "pnpm@9.15.0",
-  "pnpm": {
-    "overrides": {
-      "yaml@<2.8.3": "^2.8.3"
-    }
-  }
+  "packageManager": "pnpm@11.11.0"
 }
