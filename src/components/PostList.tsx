@@ -1,9 +1,13 @@
 import {
-  useReactTable,
-  getCoreRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  getFilteredRowModel,
+  columnFilteringFeature,
+  createFilteredRowModel,
+  createPaginatedRowModel,
+  createSortedRowModel,
+  rowPaginationFeature,
+  rowSortingFeature,
+  sortFn_datetime,
+  tableFeatures,
+  useTable,
 } from "@tanstack/react-table";
 import type {
   ColumnDef,
@@ -20,6 +24,16 @@ import { BlogIcon } from "./icons/BlogIcon";
 import { NoteIcon } from "./icons/NoteIcon";
 import { QiitaIcon } from "./icons/QiitaIcon";
 import { ZennIcon } from "./icons/ZennIcon";
+
+const features = tableFeatures({
+  columnFilteringFeature,
+  rowPaginationFeature,
+  rowSortingFeature,
+  filteredRowModel: createFilteredRowModel(),
+  paginatedRowModel: createPaginatedRowModel(),
+  sortedRowModel: createSortedRowModel(),
+  sortFns: { datetime: sortFn_datetime },
+});
 
 const ALL_POST_TYPES: readonly PostType[] = [
   PostType.MarkdownPost,
@@ -220,13 +234,13 @@ export const PostList = ({ posts }: PostListProps) => {
   ]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
-  const columns = useMemo<ColumnDef<Post>[]>(
+  const columns = useMemo<ColumnDef<typeof features, Post>[]>(
     () => [
       {
         accessorKey: "publishDate",
         cell: (info) => dayjs(info.getValue() as Date).format("YYYY-MM-DD"),
         header: "Date",
-        sortingFn: "datetime",
+        sortFn: "datetime",
       },
       {
         accessorKey: "postType",
@@ -278,13 +292,10 @@ export const PostList = ({ posts }: PostListProps) => {
     []
   );
 
-  const table = useReactTable({
+  const table = useTable({
     columns,
     data: posts,
-    getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
+    features,
     initialState: {
       columnFilters: [
         {
@@ -429,7 +440,7 @@ export const PostList = ({ posts }: PostListProps) => {
           {"<"}
         </button>
         <span className="text-base text-brand-text lg:text-xl">
-          Page {table.getState().pagination.pageIndex + 1} of{" "}
+          Page {table.state.pagination.pageIndex + 1} of{" "}
           {table.getPageCount()}
         </span>
         <button
