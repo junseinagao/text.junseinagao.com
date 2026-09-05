@@ -27,12 +27,12 @@ import { ZennIcon } from "./icons/ZennIcon";
 
 const features = tableFeatures({
   columnFilteringFeature,
-  rowPaginationFeature,
-  rowSortingFeature,
   filteredRowModel: createFilteredRowModel(),
   paginatedRowModel: createPaginatedRowModel(),
-  sortedRowModel: createSortedRowModel(),
+  rowPaginationFeature,
+  rowSortingFeature,
   sortFns: { datetime: sortFn_datetime },
+  sortedRowModel: createSortedRowModel(),
 });
 
 const ALL_POST_TYPES: readonly PostType[] = [
@@ -304,6 +304,7 @@ export const PostList = ({ posts }: PostListProps) => {
         },
       ],
       pagination: {
+        pageIndex: 0,
         pageSize: 10,
       },
     },
