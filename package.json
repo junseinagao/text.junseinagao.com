@@ -47,5 +47,10 @@
     "node": ">=24.0.0",
     "pnpm": ">=9.0.0"
   },
-  "packageManager": "pnpm@9.15.0"
+  "packageManager": "pnpm@9.15.0",
+  "pnpm": {
+    "overrides": {
+      "yaml@<2.8.3": "^2.8.3"
+    }
+  }
 }
